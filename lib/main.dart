@@ -41,8 +41,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class Starter extends StatelessWidget {
-//   const Starter({super.key});
+// class TestingTheme extends StatelessWidget {
+//   const TestingTheme({super.key});
 
 //   @override
 //   Widget build(BuildContext context) {
