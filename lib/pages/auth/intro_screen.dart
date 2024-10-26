@@ -11,7 +11,7 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(20),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Column(
@@ -23,7 +23,7 @@ class IntroScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "SELAMAT DATANG DI TOKO ASAN",
+                  "SELAMAT DATANG di TOKO ASAN",
                   style: TextStyle(fontSize: 45),
                 ),
               ],
@@ -54,10 +54,16 @@ class IntroScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text("SUDAH"),
+                        SizedBox(
+                          width: 15,
+                        ),
                         Icon(Icons.login),
                         Text("Login sekarang"),
                       ],
                     ),
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   TombolCustom(
                     onPressed: () {
@@ -70,6 +76,9 @@ class IntroScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text("BELUM"),
+                        SizedBox(
+                          width: 15,
+                        ),
                         Icon(Icons.app_registration),
                         Text("Daftar akun"),
                       ],

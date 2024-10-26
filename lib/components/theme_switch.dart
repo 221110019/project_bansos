@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_bansos/provider/theme_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:project_bansos/helper/shortcut_helper.dart';
 
 class ThemeSwitch extends StatelessWidget {
   const ThemeSwitch({
@@ -9,7 +8,7 @@ class ThemeSwitch extends StatelessWidget {
 
   @override
   Switch build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+    final themeProvider = ShortcutHelper.temaTerang(context);
     return Switch(
         value: themeProvider.terang,
         onChanged: (value) => themeProvider.toggleTema(),
