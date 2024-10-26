@@ -1,16 +1,19 @@
 # project_bansos
 
-A new Flutter project.
+Plan:
 
-## Getting Started
+Todo:
 
-This project is a starting point for a Flutter application.
+- Menerapkan Future untuk intro_screen
+- Menerapkan fungsi login dan register
+- Menyimpan semua nilai variabel provider ke Shared_Preference
 
-A few resources to get you started if this is your first Flutter project:
+Front-end:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Cek kesesuaian warna pada light/dark theme.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Info:
+
+- Padding= 10
+- Untuk bantu warna ada di class ShortcutHelper
+- Ada Widget tombol custom

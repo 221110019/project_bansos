@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:project_bansos/provider/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class ThemeSwitch extends StatelessWidget {
   const ThemeSwitch({
     super.key,
-    required this.themeProvider,
   });
 
-  final ThemeProvider themeProvider;
-
   @override
-  Widget build(BuildContext context) {
-    // Color primer = Theme.of(context).colorScheme.surface;
+  Switch build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Switch(
         value: themeProvider.terang,
         onChanged: (value) => themeProvider.toggleTema(),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_bansos/components/theme_switch.dart';
+import 'package:project_bansos/pages/auth/intro_screen.dart';
 import 'package:project_bansos/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -36,25 +36,25 @@ class MyApp extends StatelessWidget {
                           ),
                 useMaterial3: true,
               ),
-              home: const Starter());
+              home: const IntroScreen());
         }));
   }
 }
 
-class Starter extends StatelessWidget {
-  const Starter({super.key});
+// class Starter extends StatelessWidget {
+//   const Starter({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("LOGO"),
-        actions: [ThemeSwitch(themeProvider: themeProvider)],
-      ),
-      body: Center(
-        child: Text("${themeProvider.terang ? "LIGHT" : "DARK"} MODE"),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     final themeProvider = Provider.of<ThemeProvider>(context);
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text("LOGO"),
+//         actions: [ThemeSwitch(themeProvider: themeProvider)],
+//       ),
+//       body: Center(
+//         child: Text("${themeProvider.terang ? "LIGHT" : "DARK"} MODE"),
+//       ),
+//     );
+//   }
+// }
