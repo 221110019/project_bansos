@@ -4,7 +4,8 @@ import 'package:project_bansos/components/theme_switch.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/pages/auth/register_screen.dart';
-import 'package:project_bansos/pages/home/homepage_screen.dart';
+import 'package:project_bansos/pages/customer/home_cust.dart';
+import 'package:project_bansos/pages/owner/home/homepage_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -71,7 +72,13 @@ class LoginScreen extends StatelessWidget {
                     Icon(Icons.login),
                     Text("LOGIN"),
                   ],
-                ))
+                )),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => HomeCust()));
+                },
+                child: Text('Home Page Customer'))
           ],
         ),
       ),

@@ -5,6 +5,6 @@ class HomepageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Container(child: Text("Ini home")));
+    return Scaffold(body: Center(child: Container(child: Text("Ini home"))));
   }
 }
