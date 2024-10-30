@@ -5,7 +5,7 @@ import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/pages/auth/register_screen.dart';
 import 'package:project_bansos/pages/customer/home_cust.dart';
-import 'package:project_bansos/pages/owner/home/home_owner.dart';
+import 'package:project_bansos/pages/owner/home_owner.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

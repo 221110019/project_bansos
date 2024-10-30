@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
+import 'package:project_bansos/pages/owner/dashboard_owner.dart';
+import 'package:project_bansos/pages/owner/pesanan_owner.dart';
+import 'package:project_bansos/pages/owner/stok/stok_owner.dart';
 import 'package:project_bansos/provider/owner_bottom_nav_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -7,9 +10,9 @@ class HomeOwner extends StatelessWidget {
   const HomeOwner({super.key});
 
   static const List<Widget> tabs = [
-    Center(child: Text('Ini Dashboard Page')),
-    Center(child: Text('Ini Stock Page')),
-    Center(child: Text('Ini Order Page')),
+    DashboardOwner(),
+    StokOwner(),
+    PesananOwner()
   ];
 
   @override
@@ -32,9 +35,10 @@ class HomeOwner extends StatelessWidget {
           items: const [
             BottomNavigationBarItem(
                 icon: Icon(Icons.dashboard), label: 'Dashboard'),
-            BottomNavigationBarItem(icon: Icon(Icons.store), label: 'Stock'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person_pin_circle), label: 'Order'),
+                icon: Icon(Icons.assignment), label: 'Stok'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person_pin_circle), label: 'Pesanan'),
           ],
         ));
   }

@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
                           )
                         : const ColorScheme.dark(
                             primary: Color.fromRGBO(200, 1, 1, 1),
+                            shadow: Colors.white,
                           ),
                 useMaterial3: true,
               ),

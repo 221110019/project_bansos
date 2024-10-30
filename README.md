@@ -21,9 +21,11 @@ Info:
 
 ~~- BottomNav Home~~
 
-- Page daftar stock (tiap list tile ada tombol ke detail dan update)
+- Page daftar stock (tiap list tile ada tombol ke detail dan update):
+  - Tambah filter per kategori, per jumlah, atur per abjad, dkk
 - Page/popup/bottomsheet detail stock
+  - Tambah opsi edit gambar, kategori, nama, dkk
 - Page/popup/bottomsheet update stock
 - Page daftar pesanan (tiap tile ada tombol detail pesanan)
 - Page detail pesanan (+feedback)
-- Page Dashboard
+- Page Dashboard : (Logout, Summary stok, dkk )
