@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_bansos/pages/auth/intro_screen.dart';
+import 'package:project_bansos/provider/owner_bottom_nav_provider.dart';
 import 'package:project_bansos/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,10 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (context) => ThemeProvider(),
-          )
+          ),
+          ChangeNotifierProvider(
+            create: (context) => OwnerBottomNavProvider(),
+          ),
         ],
         child:
             Consumer<ThemeProvider>(builder: (context, themeProvider, child) {

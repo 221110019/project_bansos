@@ -14,6 +14,16 @@ Front-end:
 
 Info:
 
-- Padding= 10
 - Untuk bantu warna ada di class ShortcutHelper
 - Ada Widget tombol custom
+
+## Todo (Owner):
+
+~~- BottomNav Home~~
+
+- Page daftar stock (tiap list tile ada tombol ke detail dan update)
+- Page/popup/bottomsheet detail stock
+- Page/popup/bottomsheet update stock
+- Page daftar pesanan (tiap tile ada tombol detail pesanan)
+- Page detail pesanan (+feedback)
+- Page Dashboard
