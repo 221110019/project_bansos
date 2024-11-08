@@ -1,23 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:project_bansos/helper/shared_preferences.dart';
 import 'package:project_bansos/pages/auth/intro_screen.dart';
 import 'package:project_bansos/provider/owner_bottom_nav_provider.dart';
 import 'package:project_bansos/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isLoading = true;
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  void _loadData() async {
+    SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper();
+    await sharedPreferencesHelper.loadData(context);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(
-            create: (context) => ThemeProvider(),
-          ),
+          // ChangeNotifierProvider(
+          //   create: (context) => ThemeProvider(),
+          // ),
           ChangeNotifierProvider(
             create: (context) => OwnerBottomNavProvider(),
           ),
