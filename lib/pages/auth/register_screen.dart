@@ -41,77 +41,78 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ThemeSwitch(), //hapus kalau tak perlu
-            const Text(
-              "REGISTER",
-              style: TextStyle(fontSize: 30),
-            ),
-            AuthTextfield(
-              errorText: Provider.of<RegisterProvider>(context).emailError,
-              prefixIcon: Icon(Icons.alternate_email),
-              labelText: "USERNAME",
-              helperText: "Isi username Anda",
-              controller: emailController,
-            ),
-            AuthTextfield(
-              errorText: Provider.of<RegisterProvider>(context).passwordError,
-              prefixIcon: Icon(Icons.lock),
-              labelText: "PASSWORD",
-              helperText: "Isi password Anda",
-              obsecureText: true,
-              controller: passwordController,
-            ),
-            AuthTextfield(
-              errorText:
-                  Provider.of<RegisterProvider>(context).confirmPasswordError,
-              prefixIcon: Icon(Icons.lock),
-              labelText: "KONFIRMASI PASSWORD",
-              helperText: "Konfirmasi password Anda",
-              obsecureText: true,
-              controller: confirmPasswordController,
-            ),
-            TextButton(
-                onPressed: () {
-                  setState(() {
-                    widget.showLoginPage();
-                  });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Sudah punya akun?",
-                      style: TextStyle(
-                        color: ShortcutHelper.warnaOnSurface(context),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ThemeSwitch(),
+              const Text(
+                "REGISTER",
+                style: TextStyle(fontSize: 30),
+              ),
+              AuthTextfield(
+                errorText: Provider.of<RegisterProvider>(context).emailError,
+                prefixIcon: Icon(Icons.alternate_email),
+                labelText: "USERNAME",
+                helperText: "Isi username Anda",
+                controller: emailController,
+              ),
+              AuthTextfield(
+                errorText: Provider.of<RegisterProvider>(context).passwordError,
+                prefixIcon: Icon(Icons.lock),
+                labelText: "PASSWORD",
+                helperText: "Isi password Anda",
+                obsecureText: true,
+                controller: passwordController,
+              ),
+              AuthTextfield(
+                errorText:
+                    Provider.of<RegisterProvider>(context).confirmPasswordError,
+                prefixIcon: Icon(Icons.lock),
+                labelText: "KONFIRMASI PASSWORD",
+                helperText: "Konfirmasi password Anda",
+                obsecureText: true,
+                controller: confirmPasswordController,
+              ),
+              TextButton(
+                  onPressed: () {
+                    setState(() {
+                      widget.showLoginPage();
+                    });
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Sudah punya akun?",
+                        style: TextStyle(
+                          color: ShortcutHelper.warnaOnSurface(context),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    const Text("Login"),
-                  ],
-                )),
-            const SizedBox(
-              height: 30,
-            ),
-            TombolCustom(
-                onPressed: register,
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.login),
-                    Text("DAFTAR AKUN"),
-                  ],
-                ))
-          ],
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      const Text("Login"),
+                    ],
+                  )),
+              const SizedBox(
+                height: 30,
+              ),
+              TombolCustom(
+                  onPressed: register,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.login),
+                      Text("DAFTAR AKUN"),
+                    ],
+                  ))
+            ],
+          ),
         ),
       ),
     );

@@ -37,69 +37,70 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ThemeSwitch(), //hapus kalau tak perlu
-            const Text(
-              "LOGIN",
-              style: TextStyle(fontSize: 30),
-            ),
-            AuthTextfield(
-                controller: emailController,
-                prefixIcon: Icon(Icons.alternate_email),
-                labelText: "USERNAME",
-                helperText: "Isi username Anda"),
-            AuthTextfield(
-              controller: passwordController,
-              prefixIcon: Icon(Icons.lock),
-              labelText: "PASSWORD",
-              helperText: "Isi password Anda",
-              obsecureText: true,
-            ),
-            TextButton(
-                onPressed: () {
-                  widget.showRegisterPage();
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Belum punya akun?",
-                      style: TextStyle(
-                        color: ShortcutHelper.warnaOnSurface(context),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ThemeSwitch(), //hapus kalau tak perlu
+              const Text(
+                "LOGIN",
+                style: TextStyle(fontSize: 30),
+              ),
+              AuthTextfield(
+                  controller: emailController,
+                  prefixIcon: Icon(Icons.alternate_email),
+                  labelText: "USERNAME",
+                  helperText: "Isi username Anda"),
+              AuthTextfield(
+                controller: passwordController,
+                prefixIcon: Icon(Icons.lock),
+                labelText: "PASSWORD",
+                helperText: "Isi password Anda",
+                obsecureText: true,
+              ),
+              TextButton(
+                  onPressed: () {
+                    widget.showRegisterPage();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Belum punya akun?",
+                        style: TextStyle(
+                          color: ShortcutHelper.warnaOnSurface(context),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    const Text("Register"),
-                  ],
-                )),
-            const SizedBox(
-              height: 30,
-            ),
-            TombolCustom(
-                onPressed: login,
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.login),
-                    Text("LOGIN"),
-                  ],
-                )),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomeCust()));
-                },
-                child: Text('Home Page Customer'))
-          ],
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      const Text("Register"),
+                    ],
+                  )),
+              const SizedBox(
+                height: 30,
+              ),
+              TombolCustom(
+                  onPressed: login,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.login),
+                      Text("LOGIN"),
+                    ],
+                  )),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => HomeCust()));
+                  },
+                  child: Text('Home Page Customer'))
+            ],
+          ),
         ),
       ),
     );
