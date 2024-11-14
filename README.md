@@ -19,13 +19,8 @@ Info:
 
 ## Todo (Owner):
 
-~~- BottomNav Home~~
-
-- Page daftar stock (tiap list tile ada tombol ke detail dan update):
+- Update stok tambah opsi pengaturan lanjutan (edit gambar, kategori, nama)
   - Tambah filter per kategori, per jumlah, atur per abjad, dkk
-- Page/popup/bottomsheet detail stock
-  - Tambah opsi edit gambar, kategori, nama, dkk
-- Page/popup/bottomsheet update stock
 - Page daftar pesanan (tiap tile ada tombol detail pesanan)
 - Page detail pesanan (+feedback)
 - Page Dashboard : (Logout, Summary stok, dkk )
