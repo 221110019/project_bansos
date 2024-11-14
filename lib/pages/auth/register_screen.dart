@@ -3,10 +3,40 @@ import 'package:project_bansos/components/auth_textfield.dart';
 import 'package:project_bansos/components/theme_switch.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
-import 'package:project_bansos/pages/auth/login_screen.dart';
+import 'package:project_bansos/provider/register_provider.dart';
+import 'package:project_bansos/services/auth_services.dart';
+import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  final VoidCallback showLoginPage;
+  const RegisterScreen({super.key, required this.showLoginPage});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  AuthServices authServices = AuthServices();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
+  void register() {
+    setState(() {
+      FocusScope.of(context).unfocus();
+      Provider.of<RegisterProvider>(context, listen: false).resetError();
+      authServices.registerErrorValidate(emailController.text,
+          passwordController.text, confirmPasswordController.text, context);
+    });
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,25 +54,35 @@ class RegisterScreen extends StatelessWidget {
               "REGISTER",
               style: TextStyle(fontSize: 30),
             ),
-            const AuthTextfield(
-                prefixIcon: Icon(Icons.alternate_email),
-                labelText: "USERNAME",
-                helperText: "Isi username Anda"),
-            const AuthTextfield(
+            AuthTextfield(
+              errorText: Provider.of<RegisterProvider>(context).emailError,
+              prefixIcon: Icon(Icons.alternate_email),
+              labelText: "USERNAME",
+              helperText: "Isi username Anda",
+              controller: emailController,
+            ),
+            AuthTextfield(
+              errorText: Provider.of<RegisterProvider>(context).passwordError,
               prefixIcon: Icon(Icons.lock),
               labelText: "PASSWORD",
               helperText: "Isi password Anda",
               obsecureText: true,
+              controller: passwordController,
             ),
-            const AuthTextfield(
+            AuthTextfield(
+              errorText:
+                  Provider.of<RegisterProvider>(context).confirmPasswordError,
               prefixIcon: Icon(Icons.lock),
               labelText: "KONFIRMASI PASSWORD",
               helperText: "Konfirmasi password Anda",
               obsecureText: true,
+              controller: confirmPasswordController,
             ),
             TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  setState(() {
+                    widget.showLoginPage();
+                  });
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -63,11 +103,7 @@ class RegisterScreen extends StatelessWidget {
               height: 30,
             ),
             TombolCustom(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ));
-                },
+                onPressed: register,
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

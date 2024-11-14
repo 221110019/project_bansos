@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "111732021579",
+    "project_id": "toko-asan",
+    "storage_bucket": "toko-asan.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111732021579:android:fe9885008a7a85ee85b0ce",
+        "android_client_info": {
+          "package_name": "com.example.project_bansos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-uumPAhuCWOE5Hf-aL434JugzExUbB_U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

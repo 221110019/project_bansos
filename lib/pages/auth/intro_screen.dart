@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/theme_switch.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/pages/auth/auth_state.dart';
+import 'package:project_bansos/pages/auth/login_or_register.dart';
 import 'package:project_bansos/pages/auth/login_screen.dart';
 import 'package:project_bansos/pages/auth/register_screen.dart';
 
@@ -46,9 +48,10 @@ class IntroScreen extends StatelessWidget {
                 children: [
                   TombolCustom(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => AuthState(
+                                showLoginPage: true,
+                              )));
                     },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -67,8 +70,10 @@ class IntroScreen extends StatelessWidget {
                   ),
                   TombolCustom(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const RegisterScreen(),
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => AuthState(
+                          showLoginPage: false,
+                        ),
                       ));
                     },
                     filled: false,

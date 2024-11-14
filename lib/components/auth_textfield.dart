@@ -6,6 +6,7 @@ class AuthTextfield extends StatelessWidget {
   final String labelText;
   final bool obsecureText;
   final TextEditingController? controller;
+  final String? errorText;
 
   const AuthTextfield(
       {super.key,
@@ -13,7 +14,8 @@ class AuthTextfield extends StatelessWidget {
       required this.labelText,
       required this.helperText,
       this.obsecureText = false,
-      this.controller});
+      this.controller,
+      this.errorText});
 
   @override
   Padding build(BuildContext context) {
@@ -22,6 +24,7 @@ class AuthTextfield extends StatelessWidget {
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
+          errorText: errorText,
           prefixIcon: prefixIcon,
           labelText: labelText,
           labelStyle: const TextStyle(fontWeight: FontWeight.bold),

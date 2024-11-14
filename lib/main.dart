@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:project_bansos/helper/shared_preferences.dart';
+import 'package:project_bansos/pages/auth/auth_state.dart';
+import 'package:project_bansos/provider/login_provider.dart';
+import 'package:project_bansos/provider/register_provider.dart';
+import 'package:project_bansos/services/auth_services.dart';
+import 'package:project_bansos/services/shared_preferences.dart';
 import 'package:project_bansos/pages/auth/intro_screen.dart';
 import 'package:project_bansos/provider/owner_bottom_nav_provider.dart';
 import 'package:project_bansos/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
@@ -30,7 +37,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _loadData() async {
-    SharedPreferencesHelper sharedPreferencesHelper = SharedPreferencesHelper();
+    SharedPreferencesServices sharedPreferencesHelper =
+        SharedPreferencesServices();
     await sharedPreferencesHelper.loadData(context);
     setState(() {
       _isLoading = false;
@@ -46,9 +54,12 @@ class _MyAppState extends State<MyApp> {
     }
     return MultiProvider(
         providers: [
-          // ChangeNotifierProvider(
-          //   create: (context) => ThemeProvider(),
-          // ),
+          ChangeNotifierProvider(
+            create: (context) => RegisterProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => LoginProvider(),
+          ),
           ChangeNotifierProvider(
             create: (context) => OwnerBottomNavProvider(),
           ),
