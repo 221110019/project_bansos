@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project_bansos/components/theme_switch.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/pages/auth/auth_state.dart';
-import 'package:project_bansos/pages/auth/login_or_register.dart';
-import 'package:project_bansos/pages/auth/login_screen.dart';
-import 'package:project_bansos/pages/auth/register_screen.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({super.key});

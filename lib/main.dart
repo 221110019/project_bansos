@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_bansos/pages/auth/auth_state.dart';
+import 'package:project_bansos/provider/auth_provider.dart';
 import 'package:project_bansos/provider/login_provider.dart';
 import 'package:project_bansos/provider/register_provider.dart';
 import 'package:project_bansos/services/auth_services.dart';
@@ -14,8 +15,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
       child: MyApp(),
     ),
   );
@@ -30,6 +34,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -83,7 +88,9 @@ class _MyAppState extends State<MyApp> {
                           ),
                 useMaterial3: true,
               ),
-              home: const IntroScreen());
+              home: Provider.of<AuthProvider>(context).firstTime
+                  ? IntroScreen()
+                  : AuthState(showLoginPage: true));
         }));
   }
 }
