@@ -11,31 +11,27 @@ class FilterStokOwner extends StatefulWidget {
 }
 
 class _FilterStokOwnerState extends State<FilterStokOwner> {
-  int selectedChoiceIndex = 0; // Default selected chip index
-  String selectedValue = 'Kue'; // Default selected category
+  int selectedChoiceIndex = -1;
+  String selectedValue = '';
 
   @override
   void initState() {
     super.initState();
-    // Notify parent widget (StokOwner) of the initial selection
     WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.onSelectionChanged(selectedValue);
     });
   }
 
-  // Function to handle chip selection
   void onChipSelected(int index) {
     if (selectedChoiceIndex != index) {
       setState(() {
         selectedChoiceIndex = index;
-        // Update the selected category based on the selected chip
         selectedValue = index == 0
             ? 'Kue'
             : index == 1
                 ? 'Alat'
                 : 'Acak';
       });
-      // Notify the parent widget about the category change
       widget.onSelectionChanged(selectedValue);
     }
   }
@@ -45,8 +41,8 @@ class _FilterStokOwnerState extends State<FilterStokOwner> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Wrap(
-        spacing: 8.0, // Horizontal spacing between chips
-        runSpacing: 4.0, // Vertical spacing between chips
+        spacing: 8.0,
+        runSpacing: 4.0,
         children: [
           ChoiceChip(
             label: const Text('Kue'),

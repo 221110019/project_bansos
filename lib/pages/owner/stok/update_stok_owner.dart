@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/database/database_stok.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 
@@ -48,7 +49,22 @@ class UpdateStokOwner {
               const SizedBox(height: 20),
               UpdateCounter(barang: barang),
               const SizedBox(height: 20),
-              TombolCustom(onPressed: () {}, child: const Text("SELESAI"))
+              TombolCustom(onPressed: () {}, child: const Text("SELESAI")),
+              IconButton.outlined(
+                onPressed: () async {
+                  int result = await BarangStokDB().delete(barang.id);
+                  if (result > 0) {
+                    print("berhasil hapus");
+                    Navigator.pop(context);
+                  } else {
+                    print("gagal hapus");
+                  }
+                },
+                icon: Icon(
+                  Icons.delete,
+                  color: ShortcutHelper.warnaPrimary(context),
+                ),
+              ),
             ],
           ),
         );

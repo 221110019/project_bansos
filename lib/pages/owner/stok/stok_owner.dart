@@ -30,12 +30,11 @@ class _StokOwnerState extends State<StokOwner> {
     List<BarangStok> data = await BarangStokDB().read();
     setState(() {
       semuaBarang = data;
-      sampleBarang = data; // Set initial data to sampleBarang
+      sampleBarang = data;
     });
     return data;
   }
 
-  // Filter function to update sampleBarang based on selected value
   void filterStok(String selectedValue) {
     print("Filtering with value: $selectedValue");
     List<BarangStok> filteredList;
@@ -49,16 +48,29 @@ class _StokOwnerState extends State<StokOwner> {
       filteredList =
           semuaBarang.where((barang) => barang.kategori == "Acak").toList();
     } else {
-      filteredList = semuaBarang; // If no category selected, show all
+      filteredList = semuaBarang;
     }
     setState(() {
-      sampleBarang = filteredList; // Update filtered list
+      sampleBarang = filteredList;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: IconButton(
+        icon: Icon(Icons.refresh),
+        // onPressed: () async{
+        //           int result = await BarangStokDB().read();
+        //           if (result > 0) {
+        //             print("berhasil hapus");
+        //             Navigator.pop(context);
+        //           } else {
+        //             print("gagal hapus");
+        onPressed: loadBarangData,
+        // }
+        // },
+      ),
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,13 +98,15 @@ class _StokOwnerState extends State<StokOwner> {
         future: futureBarangStok,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+              color: ShortcutHelper.warnaPrimary(context),
+            ));
           } else if (snapshot.hasError) {
             return Center(child: Text("Error: ${snapshot.error}"));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text("No items found"));
+            return const Center(child: Text("No items found"));
           }
-
           return Column(
             children: [
               FilterStokOwner(
