@@ -45,6 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,8 +58,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               AuthTextfield(
                 errorText: Provider.of<RegisterProvider>(context).emailError,
                 prefixIcon: Icon(Icons.alternate_email),
-                labelText: "USERNAME",
-                helperText: "Isi username Anda",
+                labelText: "EMAIL",
+                helperText: "Isi email Anda",
                 controller: emailController,
               ),
               AuthTextfield(

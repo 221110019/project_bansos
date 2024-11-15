@@ -42,6 +42,9 @@ class AuthServices {
       } else if (e.code == 'wrong-password') {
         Provider.of<LoginProvider>(context, listen: false)
             .changePasswordError('password salah');
+      } else if (e.code == 'invalid-email') {
+        Provider.of<LoginProvider>(context, listen: false)
+            .changeEmailError('Email salah');
       }
     } catch (e) {
       print('error : $e');

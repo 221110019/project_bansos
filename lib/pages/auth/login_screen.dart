@@ -41,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,11 +52,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(fontSize: 30),
               ),
               AuthTextfield(
+                  errorText: Provider.of<LoginProvider>(context).emailError,
                   controller: emailController,
                   prefixIcon: Icon(Icons.alternate_email),
-                  labelText: "USERNAME",
-                  helperText: "Isi username Anda"),
+                  labelText: "EMAIL",
+                  helperText: "Isi email Anda"),
               AuthTextfield(
+                errorText: Provider.of<LoginProvider>(context).passwordError,
                 controller: passwordController,
                 prefixIcon: Icon(Icons.lock),
                 labelText: "PASSWORD",
@@ -93,12 +96,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text("LOGIN"),
                     ],
                   )),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => HomeCust()));
-                  },
-                  child: Text('Home Page Customer'))
+              // TextButton(
+              //     onPressed: () {
+              //       Navigator.of(context).pushReplacement(
+              //           MaterialPageRoute(builder: (context) => HomeCust()));
+              //     },
+              //     child: Text('Home Page Customer'))
             ],
           ),
         ),
