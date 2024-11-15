@@ -7,7 +7,9 @@ import 'package:project_bansos/models/barang_stok.dart';
 class UpdateStokOwner {
   final BarangStok barang;
 
-  UpdateStokOwner(this.barang);
+  final Future<List<BarangStok>> Function() refresh;
+
+  UpdateStokOwner(this.barang, this.refresh);
 
   void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -49,12 +51,28 @@ class UpdateStokOwner {
               const SizedBox(height: 20),
               UpdateCounter(barang: barang),
               const SizedBox(height: 20),
-              TombolCustom(onPressed: () {}, child: const Text("SELESAI")),
+              TombolCustom(
+                onPressed: () async {
+                  int idBarang = barang.id;
+                  int jumlahBaru = barang.jumlah;
+                  int result =
+                      await BarangStokDB().updateJumlah(idBarang, jumlahBaru);
+                  if (result > 0) {
+                    print("berhasil update");
+                    refresh;
+                    Navigator.pop(context);
+                  } else {
+                    print("gagal update");
+                  }
+                },
+                child: const Text("SELESAI"),
+              ),
               IconButton.outlined(
                 onPressed: () async {
                   int result = await BarangStokDB().delete(barang.id);
                   if (result > 0) {
                     print("berhasil hapus");
+                    refresh;
                     Navigator.pop(context);
                   } else {
                     print("gagal hapus");

@@ -92,6 +92,20 @@ class BarangStokDB {
     return brgId;
   }
 
+  Future<int> updateJumlah(int id, int jumlahBaru) async {
+    Database db = await databaseServices.getDatabase();
+    int brgId = await db.update(
+      tableName,
+      {
+        columnJumlah: jumlahBaru, // hanya update jumlah
+      },
+      where: "id = ?",
+      whereArgs: [id],
+    );
+    print(brgId);
+    return brgId;
+  }
+
   Future<int> delete(int id) async {
     Database db = await databaseServices.getDatabase();
     int jumlahTerhapus =

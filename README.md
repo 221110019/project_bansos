@@ -20,7 +20,7 @@ Info:
 ## Todo (Owner):
 
 - Update stok tambah opsi pengaturan lanjutan (edit gambar, kategori, nama)
-  - Tambah filter per kategori, per jumlah, atur per abjad, dkk
+- Auto refesh
 - Page daftar pesanan (tiap tile ada tombol detail pesanan)
 - Page detail pesanan (+feedback)
 - Page Dashboard : (Logout, Summary stok, dkk )

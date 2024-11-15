@@ -148,7 +148,7 @@ class _StokOwnerState extends State<StokOwner> {
                         title: Text(sampleBarang[index].nama),
                         subtitle: Text("Stok: ${sampleBarang[index].jumlah}"),
                         onTap: () {
-                          UpdateStokOwner(sampleBarang[index])
+                          UpdateStokOwner(sampleBarang[index], loadBarangData)
                               .showBottomSheet(context);
                         },
                       ),
