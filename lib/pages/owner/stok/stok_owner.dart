@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/theme_switch.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/database/database_stok.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/pages/owner/stok/filter_stok_owner.dart';
@@ -15,155 +16,95 @@ class StokOwner extends StatefulWidget {
 }
 
 class _StokOwnerState extends State<StokOwner> {
-  List<BarangStok> semuaBarang = [
-    BarangStok(
-      id: 1,
-      nama: "Kue Coklat",
-      foto: "assets/pictures/semprit-susu.jpg",
-      jumlah: 10,
-      kategori: "Kue",
-      deskripsi: "Kue coklat lezat dengan tekstur yang lembut.",
-    ),
-    BarangStok(
-      id: 2,
-      nama: "Kue Keju",
-      foto: "assets/pictures/semprit-susu.jpg",
-      jumlah: 5,
-      kategori: "Kue",
-      deskripsi: "Kue keju dengan rasa gurih dan renyah.",
-    ),
-    BarangStok(
-      id: 3,
-      nama: "Piring Plastik",
-      foto: "assets/pictures/semprit-susu.jpg",
-      jumlah: 20,
-      kategori: "Alat",
-      deskripsi: "Piring plastik yang cocok untuk pesta dan piknik.",
-    ),
-    BarangStok(
-      id: 4,
-      nama: "Pisau Dapur",
-      foto: "assets/pictures/semprit-susu.jpg",
-      jumlah: 8,
-      kategori: "Alat",
-      deskripsi: "Pisau dapur tajam untuk memotong bahan masakan.",
-    ),
-    BarangStok(
-      id: 5,
-      nama: "Mainan Acak",
-      foto: "assets/pictures/semprit-susu.jpg",
-      jumlah: 15,
-      kategori: "Acak",
-      deskripsi: "Mainan acak yang bisa digunakan sebagai hadiah.",
-    ),
-    BarangStok(
-      id: 6,
-      nama: "Hiasan Dinding",
-      foto: "assets/pictures/semprit-susu.jpg",
-      jumlah: 7,
-      kategori: "Acak",
-      deskripsi: "Hiasan dinding untuk mempercantik ruangan.",
-    ),
-    BarangStok(
-      id: 7,
-      nama: "Kue Nastar",
-      foto: "assets/pictures/semprit-susu.jpg",
-      jumlah: 12,
-      kategori: "Kue",
-      deskripsi: "Kue nastar dengan isian nanas yang manis.",
-    ),
-    BarangStok(
-      id: 8,
-      nama: "Sendok Kayu",
-      foto: "assets/pictures/semprit-susu.jpg",
-      jumlah: 6,
-      kategori: "Alat",
-      deskripsi: "Sendok kayu yang cocok untuk memasak.",
-    ),
-    BarangStok(
-      id: 9,
-      nama: "Boneka Acak",
-      foto: "assets/pictures/semprit-susu.jpg",
-      jumlah: 3,
-      kategori: "Acak",
-      deskripsi: "Boneka lucu yang bisa dijadikan koleksi.",
-    ),
-    BarangStok(
-      id: 10,
-      nama: "Kue Semprit",
-      foto: "assets/pictures/semprit-susu.jpg",
-      jumlah: 18,
-      kategori: "Kue",
-      deskripsi: "Kue semprit susu dengan bentuk unik dan rasa enak.",
-    ),
-  ];
-
-  late List<BarangStok> sampleBarang;
+  late Future<List<BarangStok>> futureBarangStok;
+  List<BarangStok> semuaBarang = [];
+  List<BarangStok> sampleBarang = [];
 
   @override
   void initState() {
     super.initState();
-    sampleBarang = semuaBarang
-        .where((barang) => barang.kategori == "Kue")
-        .toList(); // Initially show all items
+    futureBarangStok = loadBarangData();
   }
 
-  // Function to filter the items based on the category selected
-  List<BarangStok> filterStok(String selectedValue) {
+  Future<List<BarangStok>> loadBarangData() async {
+    List<BarangStok> data = await BarangStokDB().read();
+    setState(() {
+      semuaBarang = data;
+      sampleBarang = data; // Set initial data to sampleBarang
+    });
+    return data;
+  }
+
+  // Filter function to update sampleBarang based on selected value
+  void filterStok(String selectedValue) {
+    print("Filtering with value: $selectedValue");
+    List<BarangStok> filteredList;
     if (selectedValue == 'Kue') {
-      return semuaBarang.where((barang) => barang.kategori == "Kue").toList();
+      filteredList =
+          semuaBarang.where((barang) => barang.kategori == "Kue").toList();
+    } else if (selectedValue == 'Alat') {
+      filteredList =
+          semuaBarang.where((barang) => barang.kategori == "Alat").toList();
+    } else if (selectedValue == 'Acak') {
+      filteredList =
+          semuaBarang.where((barang) => barang.kategori == "Acak").toList();
+    } else {
+      filteredList = semuaBarang; // If no category selected, show all
     }
-    if (selectedValue == 'Alat') {
-      return semuaBarang.where((barang) => barang.kategori == "Alat").toList();
-    }
-    if (selectedValue == 'Acak') {
-      return semuaBarang.where((barang) => barang.kategori == "Acak").toList();
-    }
-    return semuaBarang; // If no category is selected, return all
+    setState(() {
+      sampleBarang = filteredList; // Update filtered list
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        scrolledUnderElevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("STOK BARANG",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: ShortcutHelper.warnaPrimary(context))),
+            Text(
+              "STOK BARANG",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: ShortcutHelper.warnaPrimary(context),
+              ),
+            ),
             const ThemeSwitch(),
             TombolCustom(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const TambahStokOwner(),
-                ));
+                    builder: (context) => const TambahStokOwner()));
               },
               child: const Icon(Icons.assignment_add),
             ),
           ],
         ),
       ),
-      body: Column(
-        children: [
-          FilterStokOwner(
-            onSelectionChanged: (selectedValue) {
-              setState(() {
-                sampleBarang =
-                    filterStok(selectedValue); // Update filtered list
-              });
-            },
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: sampleBarang.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Card(
+      body: FutureBuilder<List<BarangStok>>(
+        future: futureBarangStok,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text("Error: ${snapshot.error}"));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text("No items found"));
+          }
+
+          return Column(
+            children: [
+              FilterStokOwner(
+                onSelectionChanged: (selectedValue) {
+                  filterStok(selectedValue);
+                },
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: sampleBarang.length,
+                  itemBuilder: (context, index) {
+                    return Card(
                       elevation: 1.5,
                       surfaceTintColor: ShortcutHelper.warnaPrimary(context),
                       child: ListTile(
@@ -173,6 +114,15 @@ class _StokOwnerState extends State<StokOwner> {
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const ClipOval(
+                                child: SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: Placeholder(),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         trailing: Badge(
@@ -188,13 +138,13 @@ class _StokOwnerState extends State<StokOwner> {
                               .showBottomSheet(context);
                         },
                       ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

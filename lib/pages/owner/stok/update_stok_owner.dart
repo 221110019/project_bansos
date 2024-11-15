@@ -30,7 +30,11 @@ class UpdateStokOwner {
               const SizedBox(height: 10),
               ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
-                child: Image.asset(barang.foto),
+                child: Image.asset(
+                  barang.foto,
+                  height: 145,
+                  fit: BoxFit.fitHeight,
+                ),
               ),
               const SizedBox(height: 10),
               Text(
