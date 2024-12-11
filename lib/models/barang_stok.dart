@@ -1,5 +1,5 @@
 class BarangStok {
-  int id;
+  String id;
   String nama;
   String foto;
   int jumlah;
@@ -29,6 +29,7 @@ class BarangStok {
       'kategori': kategori,
       'foto': foto,
       'jumlah': jumlah,
+      'deskripsi': deskripsi
     };
   }
 

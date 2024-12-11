@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/database/database_stok.dart';
 import 'package:project_bansos/models/barang_stok.dart';
+import 'package:project_bansos/services/firestore_services.dart';
 
 class TambahStokOwner extends StatefulWidget {
   const TambahStokOwner({super.key});
@@ -15,7 +16,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
   //   await BarangStokDB().insertSampleData();
   //   print("Sample data inserted.");
   // }
-
+  FirestoreServices firestoreServices = FirestoreServices();
   TextEditingController namaController = TextEditingController();
   TextEditingController fotoController = TextEditingController();
   TextEditingController jumlahController = TextEditingController();
@@ -26,21 +27,30 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
 
   void saveBarang() {
     if (namaController.text.isNotEmpty && jumlahController.text.isNotEmpty) {
-      BarangStok barang = BarangStok(
-        id: const int.fromEnvironment('stok'),
-        nama: namaController.text,
-        foto: fotoController.text,
-        jumlah: int.parse(jumlahController.text),
-        kategori: selectedKategori,
-        deskripsi: deskripsiController.text,
-      );
-
-      BarangStokDB().insert(barang).then((brgId) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('Barang berhasil ditambahkan dengan ID: $brgId')),
-        );
+      // BarangStok barang = BarangStok(
+      // nama: namaController.text,
+      // foto: fotoController.text,
+      // jumlah: int.parse(jumlahController.text),
+      // kategori: selectedKategori,
+      // deskripsi: deskripsiController.text,
+      // );
+      firestoreServices.createItem({
+        'nama': namaController.text,
+        'foto': fotoController.text,
+        'jumlah': int.parse(jumlahController.text),
+        'kategori': selectedKategori,
+        'deskripsi': deskripsiController.text,
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Barang berhasil ditambahkan')),
+      );
+      Navigator.of(context).pop();
+      // BarangStokDB().insert(barang).then((brgId) {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //         content: Text('Barang berhasil ditambahkan dengan ID: $brgId')),
+      //   );
+      // });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Mohon isi semua field!')),

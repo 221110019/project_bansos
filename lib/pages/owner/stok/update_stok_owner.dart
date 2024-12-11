@@ -3,16 +3,16 @@ import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/database/database_stok.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
+import 'package:project_bansos/services/firestore_services.dart';
 
 class UpdateStokOwner {
   final BarangStok barang;
 
-  final Future<List<BarangStok>> Function() refresh;
-
-  UpdateStokOwner(this.barang, this.refresh);
-
+  UpdateStokOwner(this.barang);
+  FirestoreServices firestoreServices = FirestoreServices();
   void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
+      isDismissible: false,
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
@@ -53,30 +53,33 @@ class UpdateStokOwner {
               const SizedBox(height: 20),
               TombolCustom(
                 onPressed: () async {
-                  int idBarang = barang.id;
-                  int jumlahBaru = barang.jumlah;
-                  int result =
-                      await BarangStokDB().updateJumlah(idBarang, jumlahBaru);
-                  if (result > 0) {
-                    print("berhasil update");
-                    refresh;
-                    Navigator.pop(context);
-                  } else {
-                    print("gagal update");
-                  }
+                  firestoreServices.updateItem(barang);
+                  Navigator.pop(context);
+                  // int jumlahBaru = barang.jumlah;
+                  // int result =
+                  //     await BarangStokDB().updateJumlah(idBarang, jumlahBaru);
+                  // if (result > 0) {
+                  //   print("berhasil update");
+                  //   refresh;
+                  //   Navigator.pop(context);
+                  // } else {
+                  //   print("gagal update");
+                  // }
                 },
                 child: const Text("SELESAI"),
               ),
               IconButton.outlined(
                 onPressed: () async {
-                  int result = await BarangStokDB().delete(barang.id);
-                  if (result > 0) {
-                    print("berhasil hapus");
-                    refresh;
-                    Navigator.pop(context);
-                  } else {
-                    print("gagal hapus");
-                  }
+                  firestoreServices.deleteItem(barang.id);
+                  Navigator.pop(context);
+                  // int result = await BarangStokDB().delete(barang.id);
+                  // if (result > 0) {
+                  //   print("berhasil hapus");
+                  //   refresh;
+                  //   Navigator.pop(context);
+                  // } else {
+                  //   print("gagal hapus");
+                  // }
                 },
                 icon: Icon(
                   Icons.delete,
