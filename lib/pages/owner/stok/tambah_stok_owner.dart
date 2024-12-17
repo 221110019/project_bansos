@@ -20,7 +20,6 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
   TextEditingController namaController = TextEditingController();
   TextEditingController fotoController = TextEditingController();
   TextEditingController jumlahController = TextEditingController();
-  // TextEditingController yangDijualController = TextEditingController();
   TextEditingController deskripsiController = TextEditingController();
   String selectedKategori = 'Kue';
 

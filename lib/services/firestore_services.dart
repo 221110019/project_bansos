@@ -17,6 +17,7 @@ class FirestoreServices {
         'nama': barang.nama,
         'foto': barang.foto,
         'jumlah': barang.jumlah,
+        'yangDijual': barang.yangDijual,
         'kategori': barang.kategori,
         'deskripsi': barang.deskripsi
       });

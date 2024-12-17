@@ -43,6 +43,7 @@ class _DetailBarangState extends State<DetailBarang> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.4,
+            width: MediaQuery.of(context).size.width,
             child: Image(image: AssetImage(widget.imageUrl)),
           ),
           SizedBox(
@@ -52,6 +53,7 @@ class _DetailBarangState extends State<DetailBarang> {
             height: MediaQuery.of(context).size.height * 0.55,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10),
@@ -70,7 +72,7 @@ class _DetailBarangState extends State<DetailBarang> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text(widget.desc)
+                      Text('Deskripsi: ${widget.desc}')
                     ],
                   ),
                 ),
