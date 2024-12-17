@@ -49,11 +49,21 @@ class UpdateStokOwner {
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 20),
-              UpdateCounter(barang: barang),
+              UpdateCounter(barang: barang, jenisBarang: 'stok'),
+              const SizedBox(height: 20),
+              Text(
+                'Yang di jual: ${barang.yangDijual}',
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 20),
+              UpdateCounter(
+                barang: barang,
+                jenisBarang: 'yang dijual',
+              ),
               const SizedBox(height: 20),
               TombolCustom(
                 onPressed: () async {
-                  firestoreServices.updateItem(barang);
+                  firestoreServices.updateItem(barang, 'stock_barang');
                   Navigator.pop(context);
                   // int jumlahBaru = barang.jumlah;
                   // int result =
@@ -70,7 +80,7 @@ class UpdateStokOwner {
               ),
               IconButton.outlined(
                 onPressed: () async {
-                  firestoreServices.deleteItem(barang.id);
+                  firestoreServices.deleteItem(barang.id, 'stock_barang');
                   Navigator.pop(context);
                   // int result = await BarangStokDB().delete(barang.id);
                   // if (result > 0) {
@@ -96,8 +106,9 @@ class UpdateStokOwner {
 
 class UpdateCounter extends StatefulWidget {
   final BarangStok barang;
-
-  const UpdateCounter({super.key, required this.barang});
+  final String jenisBarang;
+  const UpdateCounter(
+      {super.key, required this.barang, required this.jenisBarang});
 
   @override
   State<UpdateCounter> createState() => _UpdateCounterState();
@@ -112,17 +123,28 @@ class _UpdateCounterState extends State<UpdateCounter> {
       children: [
         TombolCustom(
           onPressed: () {
-            widget.barang.kurangBarang();
+            if (widget.jenisBarang == 'stok') {
+              widget.barang.kurangBarang();
+            } else if (widget.jenisBarang == 'yang dijual') {
+              widget.barang.kurangYangDijual();
+            }
             setState(() {});
           },
           filled: false,
           child: const Icon(Icons.remove),
         ),
-        Text("${widget.barang.jumlah}"),
+        widget.jenisBarang == 'stok'
+            ? Text("${widget.barang.jumlah}")
+            : Text("${widget.barang.yangDijual}"),
         TombolCustom(
             filled: false,
             onPressed: () {
-              widget.barang.tambahBarang();
+              if (widget.jenisBarang == 'stok') {
+                widget.barang.tambahBarang();
+              } else if (widget.jenisBarang == 'yang dijual' &&
+                  widget.barang.yangDijual < widget.barang.jumlah) {
+                widget.barang.tambahYangDijual();
+              }
               setState(() {});
             },
             child: const Icon(Icons.add)),

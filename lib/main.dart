@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_bansos/pages/auth/auth_state.dart';
 import 'package:project_bansos/provider/auth_provider.dart';
+import 'package:project_bansos/provider/filter_stock_provider.dart';
 import 'package:project_bansos/provider/login_provider.dart';
 import 'package:project_bansos/provider/register_provider.dart';
 import 'package:project_bansos/services/auth_services.dart';
@@ -68,6 +69,7 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(
             create: (context) => OwnerBottomNavProvider(),
           ),
+          ChangeNotifierProvider(create: (context) => FilterStockProvider())
         ],
         child:
             Consumer<ThemeProvider>(builder: (context, themeProvider, child) {

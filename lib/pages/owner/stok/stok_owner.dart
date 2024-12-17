@@ -8,6 +8,8 @@ import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/pages/owner/stok/filter_stok_owner.dart';
 import 'package:project_bansos/pages/owner/stok/tambah_stok_owner.dart';
 import 'package:project_bansos/pages/owner/stok/update_stok_owner.dart';
+import 'package:project_bansos/provider/filter_stock_provider.dart';
+import 'package:provider/provider.dart';
 
 class StokOwner extends StatefulWidget {
   const StokOwner({super.key});
@@ -36,25 +38,25 @@ class _StokOwnerState extends State<StokOwner> {
   //   return data;
   // }
 
-  void filterStok(String selectedValue) {
-    print("Filtering with value: $selectedValue");
-    List<BarangStok> filteredList;
-    if (selectedValue == 'Kue') {
-      filteredList =
-          semuaBarang.where((barang) => barang.kategori == "Kue").toList();
-    } else if (selectedValue == 'Alat') {
-      filteredList =
-          semuaBarang.where((barang) => barang.kategori == "Alat").toList();
-    } else if (selectedValue == 'Acak') {
-      filteredList =
-          semuaBarang.where((barang) => barang.kategori == "Acak").toList();
-    } else {
-      filteredList = semuaBarang;
-    }
-    setState(() {
-      sampleBarang = filteredList;
-    });
-  }
+  // void filterStok(String selectedValue) {
+  // print("Filtering with value: $selectedValue");
+  // List<BarangStok> filteredList;
+  // if (selectedValue == 'Kue') {
+  //   filteredList =
+  //       semuaBarang.where((barang) => barang.kategori == "Kue").toList();
+  // } else if (selectedValue == 'Alat') {
+  //   filteredList =
+  //       semuaBarang.where((barang) => barang.kategori == "Alat").toList();
+  // } else if (selectedValue == 'Acak') {
+  //   filteredList =
+  //       semuaBarang.where((barang) => barang.kategori == "Acak").toList();
+  // } else {
+  //   filteredList = semuaBarang;
+  // }
+  // setState(() {
+  //   sampleBarang = filteredList;
+  // });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +98,9 @@ class _StokOwnerState extends State<StokOwner> {
           ),
         ),
         body: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('barang').snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection('stock_barang')
+                .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -115,6 +119,7 @@ class _StokOwnerState extends State<StokOwner> {
                         'nama': doc['nama'],
                         'foto': doc['foto'],
                         'jumlah': doc['jumlah'],
+                        'yangDijual': doc['yangDijual'],
                         'kategori': doc['kategori'],
                         'deskripsi': doc['deskripsi']
                       }))
@@ -122,50 +127,53 @@ class _StokOwnerState extends State<StokOwner> {
 
               return Column(
                 children: [
-                  // FilterStokOwner(
-                  //   onSelectionChanged: (selectedValue) {
-                  //     filterStok(selectedValue);
-                  //   },
-                  // ),
+                  FilterStokOwner(),
                   Expanded(
                     child: ListView.builder(
                       itemCount: barang.length,
                       itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 1.5,
-                          surfaceTintColor:
-                              ShortcutHelper.warnaPrimary(context),
-                          child: ListTile(
-                            leading: ClipOval(
-                              child: Image.asset(
-                                barang[index].foto,
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const ClipOval(
-                                    child: SizedBox(
+                        return barang[index].kategori ==
+                                Provider.of<FilterStockProvider>(context)
+                                    .selectedValue
+                            ? Card(
+                                elevation: 1.5,
+                                surfaceTintColor:
+                                    ShortcutHelper.warnaPrimary(context),
+                                child: ListTile(
+                                  leading: ClipOval(
+                                    child: Image.asset(
+                                      barang[index].foto,
                                       width: 50,
                                       height: 50,
-                                      child: Placeholder(),
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return const ClipOval(
+                                          child: SizedBox(
+                                            width: 50,
+                                            height: 50,
+                                            child: Placeholder(),
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  );
-                                },
-                              ),
-                            ),
-                            trailing: Badge(
-                              backgroundColor:
-                                  ShortcutHelper.warnaOnSurface(context),
-                              label: Text(barang[index].kategori.toUpperCase()),
-                            ),
-                            title: Text(barang[index].nama),
-                            subtitle: Text("Stok: ${barang[index].jumlah}"),
-                            onTap: () {
-                              UpdateStokOwner(barang[index])
-                                  .showBottomSheet(context);
-                            },
-                          ),
-                        );
+                                  ),
+                                  trailing: Badge(
+                                    backgroundColor:
+                                        ShortcutHelper.warnaOnSurface(context),
+                                    label: Text(
+                                        barang[index].kategori.toUpperCase()),
+                                  ),
+                                  title: Text(barang[index].nama),
+                                  subtitle:
+                                      Text("Stok: ${barang[index].jumlah}"),
+                                  onTap: () {
+                                    UpdateStokOwner(barang[index])
+                                        .showBottomSheet(context);
+                                  },
+                                ),
+                              )
+                            : SizedBox();
                       },
                     ),
                   ),

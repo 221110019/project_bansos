@@ -20,6 +20,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
   TextEditingController namaController = TextEditingController();
   TextEditingController fotoController = TextEditingController();
   TextEditingController jumlahController = TextEditingController();
+  // TextEditingController yangDijualController = TextEditingController();
   TextEditingController deskripsiController = TextEditingController();
   String selectedKategori = 'Kue';
 
@@ -38,9 +39,10 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
         'nama': namaController.text,
         'foto': fotoController.text,
         'jumlah': int.parse(jumlahController.text),
+        'yangDijual': 0,
         'kategori': selectedKategori,
         'deskripsi': deskripsiController.text,
-      });
+      }, 'stock_barang');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Barang berhasil ditambahkan')),
       );
@@ -81,6 +83,12 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                 decoration: const InputDecoration(labelText: 'Jumlah Barang'),
                 keyboardType: TextInputType.number,
               ),
+              // TextField(
+              //   controller: yangDijualController,
+              //   decoration:
+              //       const InputDecoration(labelText: 'Barang yang dijual'),
+              //   keyboardType: TextInputType.number,
+              // ),
               DropdownButton<String>(
                 value: selectedKategori,
                 onChanged: (String? newValue) {

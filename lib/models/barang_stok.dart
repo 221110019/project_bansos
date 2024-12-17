@@ -3,16 +3,17 @@ class BarangStok {
   String nama;
   String foto;
   int jumlah;
+  int yangDijual;
   String kategori;
   String deskripsi;
-  BarangStok({
-    required this.id,
-    required this.nama,
-    required this.foto,
-    required this.kategori,
-    required this.deskripsi,
-    this.jumlah = 0,
-  });
+  BarangStok(
+      {required this.id,
+      required this.nama,
+      required this.foto,
+      required this.kategori,
+      required this.deskripsi,
+      this.jumlah = 0,
+      this.yangDijual = 0});
   factory BarangStok.fromMap(Map<String, dynamic> map) {
     return BarangStok(
         id: map['id'],
@@ -20,6 +21,7 @@ class BarangStok {
         kategori: map['kategori'],
         foto: map['foto'],
         jumlah: map['jumlah'],
+        yangDijual: map['yangDijual'],
         deskripsi: map['deskripsi']);
   }
   Map<String, dynamic> toMap() {
@@ -29,6 +31,7 @@ class BarangStok {
       'kategori': kategori,
       'foto': foto,
       'jumlah': jumlah,
+      'yangDijual': yangDijual,
       'deskripsi': deskripsi
     };
   }
@@ -40,6 +43,16 @@ class BarangStok {
   void kurangBarang() {
     if (jumlah >= 1) {
       jumlah -= 1;
+    }
+  }
+
+  void tambahYangDijual() {
+    yangDijual += 1;
+  }
+
+  void kurangYangDijual() {
+    if (yangDijual >= 1) {
+      yangDijual -= 1;
     }
   }
 }

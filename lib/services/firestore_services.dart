@@ -3,17 +3,17 @@ import 'package:project_bansos/models/barang_stok.dart';
 
 class FirestoreServices {
   FirebaseFirestore db = FirebaseFirestore.instance;
-  void createItem(barang) async {
+  void createItem(barang, collection) async {
     try {
-      await db.collection('barang').doc().set(barang);
+      await db.collection(collection).doc().set(barang);
     } catch (e) {
       print(e);
     }
   }
 
-  void updateItem(BarangStok barang) async {
+  void updateItem(BarangStok barang, collection) async {
     try {
-      await db.collection('barang').doc(barang.id).update({
+      await db.collection(collection).doc(barang.id).update({
         'nama': barang.nama,
         'foto': barang.foto,
         'jumlah': barang.jumlah,
@@ -25,9 +25,9 @@ class FirestoreServices {
     }
   }
 
-  void deleteItem(id) async {
+  void deleteItem(id, collection) async {
     try {
-      await db.collection('barang').doc(id).delete();
+      await db.collection(collection).doc(id).delete();
     } catch (e) {
       print(e);
     }
