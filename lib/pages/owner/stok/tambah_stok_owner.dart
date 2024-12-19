@@ -34,14 +34,14 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
       // kategori: selectedKategori,
       // deskripsi: deskripsiController.text,
       // );
-      firestoreServices.createItem({
+      firestoreServices.createItemStock({
         'nama': namaController.text,
         'foto': fotoController.text,
         'jumlah': int.parse(jumlahController.text),
         'yangDijual': 0,
         'kategori': selectedKategori,
         'deskripsi': deskripsiController.text,
-      }, 'stock_barang');
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Barang berhasil ditambahkan')),
       );

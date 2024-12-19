@@ -55,10 +55,8 @@ class _BarangState extends State<Barang> {
                           preorder: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => DetailBarang(
-                                    imageUrl: barang[index].foto,
-                                    itemName: barang[index].nama,
-                                    itemCount: barang[index].yangDijual,
-                                    desc: barang[index].deskripsi)));
+                                      barangStok: barang[index],
+                                    )));
                           },
                         )
                       : SizedBox();

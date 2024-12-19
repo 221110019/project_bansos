@@ -1,19 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_bansos/models/barang_preorder.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 
 class FirestoreServices {
   FirebaseFirestore db = FirebaseFirestore.instance;
-  void createItem(barang, collection) async {
+  void createItemStock(barang) async {
     try {
-      await db.collection(collection).doc().set(barang);
+      await db.collection('stock_barang').doc().set(barang);
     } catch (e) {
       print(e);
     }
   }
 
-  void updateItem(BarangStok barang, collection) async {
+  void updateItemStock(BarangStok barang) async {
     try {
-      await db.collection(collection).doc(barang.id).update({
+      await db.collection('stock_barang').doc(barang.id).update({
         'nama': barang.nama,
         'foto': barang.foto,
         'jumlah': barang.jumlah,
@@ -26,9 +27,44 @@ class FirestoreServices {
     }
   }
 
-  void deleteItem(id, collection) async {
+  void deleteItemStock(id) async {
     try {
-      await db.collection(collection).doc(id).delete();
+      await db.collection("stock_barang").doc(id).delete();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void createPreorder(barang, BarangStok barangStok) async {
+    try {
+      await db.collection('preorder').doc().set(barang);
+      print(barang['jumlah']);
+      barangStok.kurangBanyakBarang(barang['jumlah']);
+      barangStok.kurangBanyakBarangYangDijual(barang['jumlah']);
+      updateItemStock(barangStok);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void updatePreorder(BarangPreorder barang) async {
+    try {
+      await db.collection('preorder').doc(barang.id).update({
+        'namaBarang': barang.namaBarang,
+        'idPembeli': barang.idPembeli,
+        'kategori': barang.kategori,
+        'foto': barang.foto,
+        'jumlah': barang.jumlah,
+        'waktuPengambilan': barang.waktuPengambilan
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void deletePreorder(id) async {
+    try {
+      await db.collection("preorder").doc(id).delete();
     } catch (e) {
       print(e);
     }

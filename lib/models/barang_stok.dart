@@ -46,6 +46,14 @@ class BarangStok {
     }
   }
 
+  void kurangBanyakBarang(int value) {
+    jumlah -= value;
+  }
+
+  void kurangBanyakBarangYangDijual(int value) {
+    yangDijual -= value;
+  }
+
   void tambahYangDijual() {
     yangDijual += 1;
   }

@@ -63,7 +63,9 @@ class UpdateStokOwner {
               const SizedBox(height: 20),
               TombolCustom(
                 onPressed: () async {
-                  firestoreServices.updateItem(barang, 'stock_barang');
+                  firestoreServices.updateItemStock(
+                    barang,
+                  );
                   Navigator.pop(context);
                   // int jumlahBaru = barang.jumlah;
                   // int result =
@@ -80,7 +82,7 @@ class UpdateStokOwner {
               ),
               IconButton.outlined(
                 onPressed: () async {
-                  firestoreServices.deleteItem(barang.id, 'stock_barang');
+                  firestoreServices.deleteItemStock(barang.id);
                   Navigator.pop(context);
                   // int result = await BarangStokDB().delete(barang.id);
                   // if (result > 0) {
