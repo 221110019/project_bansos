@@ -41,7 +41,7 @@ class _DetailBarangState extends State<DetailBarang> {
         'foto': widget.barangStok.foto,
         'jumlah': itemPreorder,
         'waktuPengambilan': DateTime.now()
-      }, widget.barangStok);
+      }, widget.barangStok, authServices.auth.currentUser!.uid);
     });
     Navigator.of(context).pop();
   }

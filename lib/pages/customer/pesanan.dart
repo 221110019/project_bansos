@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project_bansos/components/list_tile_pesanan.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_preorder.dart';
+import 'package:project_bansos/services/auth_services.dart';
 
 class Pesanan extends StatefulWidget {
   const Pesanan({super.key});
@@ -12,6 +13,7 @@ class Pesanan extends StatefulWidget {
 }
 
 class _PesananState extends State<Pesanan> {
+  AuthServices authServices = AuthServices();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +21,12 @@ class _PesananState extends State<Pesanan> {
         title: Text('Pesanan'),
       ),
       body: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('preorder').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('preorder')
+              .doc(authServices.auth.currentUser!.uid)
+              .collection('pesanan')
+              .orderBy('waktuPengambilan', descending: true)
+              .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -32,7 +39,6 @@ class _PesananState extends State<Pesanan> {
             } else if (snapshot.data!.docs.isEmpty) {
               return const Center(child: Text("No items found"));
             }
-            print('hai');
             List<BarangPreorder> listPesanan = snapshot.data!.docs
                 .map((doc) => BarangPreorder.fromMap({
                       'id': doc.id,
@@ -48,7 +54,10 @@ class _PesananState extends State<Pesanan> {
             return ListView.builder(
                 itemCount: listPesanan.length,
                 itemBuilder: (context, index) {
-                  return ListTilePesanan(listPesanan[index]);
+                  return listPesanan[index].idPembeli ==
+                          authServices.auth.currentUser!.uid
+                      ? ListTilePesanan(listPesanan[index])
+                      : SizedBox();
                 });
           }),
     );

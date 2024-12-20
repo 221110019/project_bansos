@@ -35,9 +35,13 @@ class FirestoreServices {
     }
   }
 
-  void createPreorder(barang, BarangStok barangStok) async {
+  void createPreorder(barang, BarangStok barangStok, uid) async {
     try {
-      await db.collection('preorder').doc().set(barang);
+      await db
+          .collection('preorder')
+          .doc(uid)
+          .collection('pesanan')
+          .add(barang);
       print(barang['jumlah']);
       barangStok.kurangBanyakBarang(barang['jumlah']);
       barangStok.kurangBanyakBarangYangDijual(barang['jumlah']);
