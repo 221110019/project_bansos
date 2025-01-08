@@ -11,7 +11,11 @@ class ThemeSwitch extends StatelessWidget {
     final themeProvider = ShortcutHelper.temaTerang(context);
     return Switch(
         value: themeProvider.terang,
-        onChanged: (value) => themeProvider.toggleTema(),
+        onChanged: (value) {
+          themeProvider.toggleTema();
+          ShortcutHelper.kataSistem(context,
+              "Mengaktifkan mode ${themeProvider.terang ? 'terang' : 'gelap'}");
+        },
         thumbIcon: WidgetStateProperty.resolveWith<Icon?>(
           (Set<WidgetState> states) {
             if (!themeProvider.terang) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
-import 'package:project_bansos/database/database_stok.dart';
-import 'package:project_bansos/models/barang_stok.dart';
+import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/services/firestore_services.dart';
 
 class TambahStokOwner extends StatefulWidget {
@@ -42,9 +41,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
         'kategori': selectedKategori,
         'deskripsi': deskripsiController.text,
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Barang berhasil ditambahkan')),
-      );
+      ShortcutHelper.kataSistem(context, 'Barang berhasil ditambahkan');
       Navigator.of(context).pop();
       // BarangStokDB().insert(barang).then((brgId) {
       //   ScaffoldMessenger.of(context).showSnackBar(
@@ -53,9 +50,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
       //   );
       // });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Mohon isi semua field!')),
-      );
+      ShortcutHelper.kataSistem(context, 'Mohon isi semuanya');
     }
   }
 
@@ -102,7 +97,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                     child: Text(value),
                   );
                 }).toList(),
-                hint: Text('Pilih Kategori'),
+                hint: const Text('Pilih Kategori'),
               ),
               TextField(
                 controller: deskripsiController,

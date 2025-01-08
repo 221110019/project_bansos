@@ -4,7 +4,6 @@ import 'package:project_bansos/provider/auth_provider.dart';
 import 'package:project_bansos/provider/filter_stock_provider.dart';
 import 'package:project_bansos/provider/login_provider.dart';
 import 'package:project_bansos/provider/register_provider.dart';
-import 'package:project_bansos/services/auth_services.dart';
 import 'package:project_bansos/services/shared_preferences.dart';
 import 'package:project_bansos/pages/auth/intro_screen.dart';
 import 'package:project_bansos/provider/owner_bottom_nav_provider.dart';
@@ -21,7 +20,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -91,26 +90,8 @@ class _MyAppState extends State<MyApp> {
                 useMaterial3: true,
               ),
               home: Provider.of<AuthProvider>(context).firstTime
-                  ? IntroScreen()
-                  : AuthState(showLoginPage: true));
+                  ? const IntroScreen()
+                  : const AuthState(showLoginPage: true));
         }));
   }
 }
-
-// class TestingTheme extends StatelessWidget {
-//   const TestingTheme({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final themeProvider = Provider.of<ThemeProvider>(context);
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("LOGO"),
-//         actions: [ThemeSwitch(themeProvider: themeProvider)],
-//       ),
-//       body: Center(
-//         child: Text("${themeProvider.terang ? "LIGHT" : "DARK"} MODE"),
-//       ),
-//     );
-//   }
-// }

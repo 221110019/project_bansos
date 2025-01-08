@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:project_bansos/components/theme_switch.dart';
+import 'package:project_bansos/components/alt_gambar_error.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
-import 'package:project_bansos/database/database_stok.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/pages/owner/stok/filter_stok_owner.dart';
@@ -15,10 +14,10 @@ class StokOwner extends StatefulWidget {
   const StokOwner({super.key});
 
   @override
-  _StokOwnerState createState() => _StokOwnerState();
+  StokOwnerState createState() => StokOwnerState();
 }
 
-class _StokOwnerState extends State<StokOwner> {
+class StokOwnerState extends State<StokOwner> {
   late Future<List<BarangStok>> futureBarangStok;
   List<BarangStok> semuaBarang = [];
   List<BarangStok> sampleBarang = [];
@@ -86,7 +85,6 @@ class _StokOwnerState extends State<StokOwner> {
                   color: ShortcutHelper.warnaPrimary(context),
                 ),
               ),
-              const ThemeSwitch(),
               TombolCustom(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -127,7 +125,7 @@ class _StokOwnerState extends State<StokOwner> {
 
               return Column(
                 children: [
-                  FilterStokOwner(),
+                  const FilterStokOwner(),
                   Expanded(
                     child: ListView.builder(
                       itemCount: barang.length,
@@ -136,44 +134,54 @@ class _StokOwnerState extends State<StokOwner> {
                                 Provider.of<FilterStockProvider>(context)
                                     .selectedValue
                             ? Card(
-                                elevation: 1.5,
+                                elevation: 0.45,
                                 surfaceTintColor:
                                     ShortcutHelper.warnaPrimary(context),
                                 child: ListTile(
-                                  leading: ClipOval(
-                                    child: Image.asset(
-                                      barang[index].foto,
-                                      width: 50,
-                                      height: 50,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return const ClipOval(
-                                          child: SizedBox(
-                                            width: 50,
-                                            height: 50,
-                                            child: Placeholder(),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  trailing: Badge(
+                                  leading: Badge(
+                                    alignment: Alignment.topLeft,
                                     backgroundColor:
-                                        ShortcutHelper.warnaOnSurface(context),
+                                        ShortcutHelper.warnaPrimary(context),
                                     label: Text(
                                         barang[index].kategori.toUpperCase()),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(16),
+                                      child: Image.asset(
+                                        barang[index].foto,
+                                        width: 50,
+                                        height: 50,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return const AltGambarError(
+                                              lebar: 50, tinggi: 50);
+                                        },
+                                      ),
+                                    ),
                                   ),
-                                  title: Text(barang[index].nama),
-                                  subtitle:
-                                      Text("Stok: ${barang[index].jumlah}"),
+                                  title: Text(
+                                    barang[index].nama.toUpperCase(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w900),
+                                  ),
+                                  subtitle: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("${barang[index].jumlah} stok"),
+                                      Text(
+                                          "${barang[index].jumlah - barang[index].yangDijual} dipakai"),
+                                      Text(
+                                          "${barang[index].yangDijual} dijual"),
+                                    ],
+                                  ),
                                   onTap: () {
                                     UpdateStokOwner(barang[index])
                                         .showBottomSheet(context);
                                   },
                                 ),
                               )
-                            : SizedBox();
+                            : const SizedBox();
                       },
                     ),
                   ),

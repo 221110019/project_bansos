@@ -6,10 +6,10 @@ class FilterStokOwner extends StatefulWidget {
   const FilterStokOwner({super.key});
 
   @override
-  _FilterStokOwnerState createState() => _FilterStokOwnerState();
+  FilterStokOwnerState createState() => FilterStokOwnerState();
 }
 
-class _FilterStokOwnerState extends State<FilterStokOwner> {
+class FilterStokOwnerState extends State<FilterStokOwner> {
   void onChipSelected(int index) {
     if (Provider.of<FilterStockProvider>(context, listen: false)
             .selectedChoiceIndex !=
