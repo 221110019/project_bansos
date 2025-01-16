@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
+import 'package:project_bansos/components/list_tile_pesanan.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
+import 'package:project_bansos/models/barang_preorder.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/pages/owner/stok/update_stok_owner.dart';
 import 'package:project_bansos/provider/filter_stock_provider.dart';
@@ -29,9 +31,8 @@ class PesananOwner extends StatelessWidget {
           ),
         ),
         body: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('stock_barang')
-                .snapshots(),
+            stream:
+                FirebaseFirestore.instance.collection('preorder').snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -44,62 +45,68 @@ class PesananOwner extends StatelessWidget {
                   snapshot.data?.docs == null) {
                 return const Center(child: Text("No items found"));
               }
+              print(snapshot.data!.docs);
               // print(snapshot.data!.docs[0].data());
-              List<BarangStok> barang = snapshot.data!.docs.map((doc) {
+              List<BarangPreorder> barang = snapshot.data!.docs.map((doc) {
                 final data = doc.data() as Map<String, dynamic>;
-                return BarangStok.fromMap({
+                return BarangPreorder.fromMap({
                   'id': doc.id,
-                  'nama': data['nama'],
+                  'namaBarang': data['namaBarang'],
+                  'idPembeli': data['idPembeli'],
+                  'kategori': data['kategori'],
                   'foto': data['foto'],
                   'jumlah': data['jumlah'],
-                  'yangDijual': data['yangDijual'],
-                  'kategori': data['kategori'],
-                  'deskripsi': data['deskripsi']
+                  'waktuPengambilan': data['waktuPengambilan']
                 });
               }).toList();
+              return ListView.builder(
+                  itemCount: barang.length,
+                  itemBuilder: (context, index) {
+                    return ListTilePesanan(barang[index]);
+                  });
 
-              return Column(
-                children: [
-                  // FilterStokOwner(),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: barang.length,
-                      itemBuilder: (context, index) {
-                        return barang[index].kategori ==
-                                Provider.of<FilterStockProvider>(context)
-                                    .selectedValue
-                            ? ListTile(
-                                leading: ClipOval(
-                                  child: Image.asset(
-                                    barang[index].foto,
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return const AltGambarError(
-                                          lebar: 50, tinggi: 50);
-                                    },
-                                  ),
-                                ),
-                                trailing: Badge(
-                                  backgroundColor:
-                                      ShortcutHelper.warnaPrimary(context),
-                                  label: Text(
-                                      barang[index].kategori.toUpperCase()),
-                                ),
-                                title: Text(barang[index].nama),
-                                subtitle: Text("Stok: ${barang[index].jumlah}"),
-                                onTap: () {
-                                  UpdateStokOwner(barang[index])
-                                      .showBottomSheet(context);
-                                },
-                              )
-                            : const SizedBox();
-                      },
-                    ),
-                  ),
-                ],
-              );
+              // return Column(
+              //   children: [
+              //     // FilterStokOwner(),
+              //     Expanded(
+              //       child: ListView.builder(
+              //         itemCount: barang.length,
+              //         itemBuilder: (context, index) {
+              //           return barang[index].kategori ==
+              //                   Provider.of<FilterStockProvider>(context)
+              //                       .selectedValue
+              //               ? ListTile(
+              //                   leading: ClipOval(
+              //                     child: Image.asset(
+              //                       barang[index].foto,
+              //                       width: 50,
+              //                       height: 50,
+              //                       fit: BoxFit.cover,
+              //                       errorBuilder: (context, error, stackTrace) {
+              //                         return const AltGambarError(
+              //                             lebar: 50, tinggi: 50);
+              //                       },
+              //                     ),
+              //                   ),
+              //                   trailing: Badge(
+              //                     backgroundColor:
+              //                         ShortcutHelper.warnaPrimary(context),
+              //                     label: Text(
+              //                         barang[index].kategori.toUpperCase()),
+              //                   ),
+              //                   title: Text(barang[index].nama),
+              //                   subtitle: Text("Stok: ${barang[index].jumlah}"),
+              //                   onTap: () {
+              //                     // UpdateStokOwner(barang[index])
+              //                     //     .showBottomSheet(context);
+              //                   },
+              //                 )
+              //               : const SizedBox();
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // );
             }));
   }
 }

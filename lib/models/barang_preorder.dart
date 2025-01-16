@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class BarangPreorder {
   String id;
   String namaBarang;
@@ -5,7 +7,7 @@ class BarangPreorder {
   String foto;
   int jumlah;
   String kategori;
-  DateTime waktuPengambilan;
+  Timestamp waktuPengambilan;
   BarangPreorder({
     required this.id,
     required this.namaBarang,

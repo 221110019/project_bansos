@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class BarangStok {
   String id;
   String nama;
@@ -6,14 +8,18 @@ class BarangStok {
   int yangDijual;
   String kategori;
   String deskripsi;
+  int harga;
+  Timestamp kadarluasa;
   BarangStok(
       {required this.id,
       required this.nama,
       required this.foto,
       required this.kategori,
       required this.deskripsi,
+      required this.kadarluasa,
       this.jumlah = 0,
-      this.yangDijual = 0});
+      this.yangDijual = 0,
+      this.harga = 0});
   factory BarangStok.fromMap(Map<String, dynamic> map) {
     return BarangStok(
         id: map['id'],
@@ -22,7 +28,9 @@ class BarangStok {
         foto: map['foto'],
         jumlah: map['jumlah'],
         yangDijual: map['yangDijual'],
-        deskripsi: map['deskripsi']);
+        deskripsi: map['deskripsi'],
+        harga: map['harga'],
+        kadarluasa: map['kadarluasa']);
   }
   Map<String, dynamic> toMap() {
     return {
@@ -32,7 +40,9 @@ class BarangStok {
       'foto': foto,
       'jumlah': jumlah,
       'yangDijual': yangDijual,
-      'deskripsi': deskripsi
+      'deskripsi': deskripsi,
+      'harga': harga,
+      'kadarluasa': kadarluasa
     };
   }
 

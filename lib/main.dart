@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:project_bansos/pages/auth/auth_state.dart';
 import 'package:project_bansos/provider/auth_provider.dart';
 import 'package:project_bansos/provider/filter_stock_provider.dart';
@@ -13,6 +14,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await Firebase.initializeApp();
   runApp(
     MultiProvider(

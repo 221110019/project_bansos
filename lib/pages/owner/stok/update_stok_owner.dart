@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
@@ -7,9 +8,10 @@ import 'package:project_bansos/services/firestore_services.dart';
 
 class UpdateStokOwner {
   final BarangStok barang;
-
-  UpdateStokOwner(this.barang);
+  final TextEditingController hargaController;
+  UpdateStokOwner(this.barang, this.hargaController);
   FirestoreServices firestoreServices = FirestoreServices();
+
   void showBottomSheet(BuildContext context) => showModalBottomSheet(
         isDismissible: true,
         showDragHandle: true,
@@ -72,24 +74,28 @@ class UpdateStokOwner {
                   jenisBarang: 'yang dijual',
                 ),
                 const SizedBox(height: 20),
+                SizedBox(
+                    width: 100,
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      controller: hargaController,
+                      decoration: InputDecoration(
+                          hintText: "Rp.${barang.harga}",
+                          border: const OutlineInputBorder()),
+                    )),
+                const SizedBox(height: 10),
                 TombolCustom(
                   onPressed: () async {
+                    if (hargaController.text.trim() != '') {
+                      barang.harga = int.parse(hargaController.text.trim());
+                    }
                     firestoreServices.updateItemStock(
                       barang,
                     );
+                    print(barang.harga);
                     Navigator.pop(context);
                     ShortcutHelper.kataSistem(
                         context, 'Stok berhasil diperbarui');
-                    // int jumlahBaru = barang.jumlah;
-                    // int result =
-                    //     await BarangStokDB().updateJumlah(idBarang, jumlahBaru);
-                    // if (result > 0) {
-                    //   print("berhasil update");
-                    //   refresh;
-                    //   Navigator.pop(context);
-                    // } else {
-                    //   print("gagal update");
-                    // }
                   },
                   child: const Text("SELESAI"),
                 ),
@@ -100,14 +106,6 @@ class UpdateStokOwner {
                     Navigator.pop(context);
                     ShortcutHelper.kataSistem(
                         context, 'Barang berhasil dihapus');
-                    // int result = await BarangStokDB().delete(barang.id);
-                    // if (result > 0) {
-                    //   print("berhasil hapus");
-                    //   refresh;
-                    //   Navigator.pop(context);
-                    // } else {
-                    //   print("gagal hapus");
-                    // }
                   },
                   icon: Icon(
                     Icons.delete,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project_bansos/components/alt_gambar_error.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/services/auth_services.dart';
 import 'package:project_bansos/services/firestore_services.dart';
@@ -49,25 +51,32 @@ class _DetailBarangState extends State<DetailBarang> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.4,
-            width: MediaQuery.of(context).size.width,
-            child: Image(image: AssetImage(widget.barangStok.foto)),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.01,
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.55,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      appBar: AppBar(
+        title: Text('Detail barang'),
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  height: 300,
+                  width: MediaQuery.of(context).size.width,
+                  child: Image(
+                    image: AssetImage(
+                      widget.barangStok.foto,
+                    ),
+                    errorBuilder: (context, error, stackTrace) {
+                      return const AltGambarError(lebar: 50, tinggi: 50);
+                    },
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -80,53 +89,71 @@ class _DetailBarangState extends State<DetailBarang> {
                         "Jumlah : ${widget.barangStok.yangDijual.toString()}",
                         style: TextStyle(fontSize: 20),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text('Deskripsi: ${widget.barangStok.deskripsi}')
-                    ],
-                  ),
-                ),
-                Container(
-                  child: Column(
-                    children: [
+                      Text('Deskripsi: ${widget.barangStok.deskripsi}'),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          IconButton(
-                              onPressed: removePreorder,
-                              icon: Icon(
-                                Icons.remove,
-                                size: 40,
-                              )),
-                          Text(
-                            itemPreorder.toString(),
-                            style: TextStyle(fontSize: 30),
-                          ),
-                          IconButton(
-                              onPressed: addPreorder,
-                              icon: Icon(
-                                Icons.add,
-                                size: 40,
-                              ))
+                          Text('Waktu pengambilan: '),
+                          Text('(belum diatur)'),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    ShortcutHelper.warnaOnSurface(context),
+                                minimumSize: Size(0, 10),
+                                shape: BeveledRectangleBorder(),
+                              ),
+                              onPressed: () {},
+                              child: Text('Atur ',
+                                  style: TextStyle(
+                                    color: ShortcutHelper.warnaSurface(context),
+                                  )))
                         ],
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: TombolCustom(
-                            onPressed: preorder,
-                            child: Text(
-                              'Preorder',
-                              style: TextStyle(color: Colors.white),
-                            )),
-                      )
                     ],
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            Container(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                          onPressed: removePreorder,
+                          icon: Icon(
+                            Icons.remove,
+                            size: 40,
+                          )),
+                      Text(
+                        itemPreorder.toString(),
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      IconButton(
+                          onPressed: addPreorder,
+                          icon: Icon(
+                            Icons.add,
+                            size: 40,
+                          ))
+                    ],
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child: TombolCustom(
+                        onPressed: preorder,
+                        child: Text(
+                          'Preorder',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

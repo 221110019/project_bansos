@@ -20,7 +20,9 @@ class FirestoreServices {
         'jumlah': barang.jumlah,
         'yangDijual': barang.yangDijual,
         'kategori': barang.kategori,
-        'deskripsi': barang.deskripsi
+        'deskripsi': barang.deskripsi,
+        'harga': barang.harga,
+        'kadarluasa': barang.kadarluasa
       });
     } catch (e) {
       print(e);
@@ -37,11 +39,7 @@ class FirestoreServices {
 
   void createPreorder(barang, BarangStok barangStok, uid) async {
     try {
-      await db
-          .collection('preorder')
-          .doc(uid)
-          .collection('pesanan')
-          .add(barang);
+      await db.collection('preorder').add(barang);
       print(barang['jumlah']);
       barangStok.kurangBanyakBarang(barang['jumlah']);
       barangStok.kurangBanyakBarangYangDijual(barang['jumlah']);

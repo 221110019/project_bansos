@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:project_bansos/components/list_tile_cust.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/pages/customer/detail_barang.dart';
+import 'package:project_bansos/services/ads_services.dart';
 
 class Barang extends StatefulWidget {
   final searchButton;
@@ -14,6 +16,8 @@ class Barang extends StatefulWidget {
 }
 
 class _BarangState extends State<Barang> {
+  BannerAd? _banner;
+
   Widget barang(String kategori) {
     return StreamBuilder(
         stream:
@@ -38,7 +42,9 @@ class _BarangState extends State<Barang> {
                     'jumlah': doc['jumlah'],
                     'yangDijual': doc['yangDijual'],
                     'kategori': doc['kategori'],
-                    'deskripsi': doc['deskripsi']
+                    'deskripsi': doc['deskripsi'],
+                    "harga": doc['harga'],
+                    'kadarluasa': doc['kadarluasa']
                   }))
               .toList();
           return Container(
@@ -49,10 +55,8 @@ class _BarangState extends State<Barang> {
                   return barang[index].kategori == kategori &&
                           barang[index].yangDijual != 0
                       ? ListTileCust(
-                          imageUrl: barang[index].foto,
-                          itemName: barang[index].nama,
-                          itemCount: barang[index].yangDijual,
-                          preorder: () {
+                          barang: barang[index],
+                          ontap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => DetailBarang(
                                       barangStok: barang[index],
@@ -66,32 +70,53 @@ class _BarangState extends State<Barang> {
   }
 
   @override
+  void initState() {
+    _createBannerAd();
+    super.initState();
+  }
+
+  void _createBannerAd() {
+    _banner = BannerAd(
+        adUnitId: AdMobService.bannerAdUnitId!,
+        size: AdSize.banner,
+        request: const AdRequest(),
+        listener: AdMobService.bannerListener)
+      ..load();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        bottom: const TabBar(
-          dividerColor: Colors.transparent,
-          splashFactory: NoSplash.splashFactory,
-          tabs: [
-            Tab(
-              text: 'KUE',
-            ),
-            Tab(
-              text: 'ALAT',
-            ),
-            Tab(
-              text: 'ACAK',
-            ),
+        appBar: AppBar(
+          bottom: const TabBar(
+            dividerColor: Colors.transparent,
+            splashFactory: NoSplash.splashFactory,
+            tabs: [
+              Tab(
+                text: 'KUE',
+              ),
+              Tab(
+                text: 'ALAT',
+              ),
+              Tab(
+                text: 'ACAK',
+              ),
+            ],
+          ),
+          automaticallyImplyLeading: false,
+          title: Text('Barang'),
+          actions: [
+            IconButton(onPressed: widget.searchButton, icon: Icon(Icons.search))
           ],
         ),
-        automaticallyImplyLeading: false,
-        title: Text('Barang'),
-        actions: [
-          IconButton(onPressed: widget.searchButton, icon: Icon(Icons.search))
-        ],
-      ),
-      body:
-          TabBarView(children: [barang('Kue'), barang('Alat'), barang('Acak')]),
-    );
+        body: TabBarView(
+            children: [barang('Kue'), barang('Alat'), barang('Acak')]),
+        bottomNavigationBar: _banner == null
+            ? Container()
+            : Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                height: 52,
+                child: AdWidget(ad: _banner!),
+              ));
   }
 }

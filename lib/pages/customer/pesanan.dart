@@ -14,6 +14,18 @@ class Pesanan extends StatefulWidget {
 
 class _PesananState extends State<Pesanan> {
   AuthServices authServices = AuthServices();
+  bool isThere(List<QueryDocumentSnapshot<Object?>>? pesanan, currentUserId) {
+    bool isThere = false;
+    for (int i = 0; i < pesanan!.length; i++) {
+      if (pesanan[i]['idPembeli'] == currentUserId) {
+        isThere = true;
+        print('ada');
+        break;
+      }
+    }
+    return isThere;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +35,6 @@ class _PesananState extends State<Pesanan> {
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('preorder')
-              .doc(authServices.auth.currentUser!.uid)
-              .collection('pesanan')
               .orderBy('waktuPengambilan', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
@@ -36,9 +46,12 @@ class _PesananState extends State<Pesanan> {
               );
             } else if (snapshot.hasError) {
               return Center(child: Text("Error: ${snapshot.error}"));
-            } else if (snapshot.data!.docs.isEmpty) {
+            } else if (snapshot.data!.docs.isEmpty ||
+                !isThere(
+                    snapshot.data?.docs, authServices.auth.currentUser!.uid)) {
               return const Center(child: Text("No items found"));
             }
+
             List<BarangPreorder> listPesanan = snapshot.data!.docs
                 .map((doc) => BarangPreorder.fromMap({
                       'id': doc.id,
@@ -47,8 +60,7 @@ class _PesananState extends State<Pesanan> {
                       'kategori': doc['kategori'],
                       'foto': doc['foto'],
                       'jumlah': doc['jumlah'],
-                      'waktuPengambilan':
-                          (doc['waktuPengambilan'] as Timestamp).toDate()
+                      'waktuPengambilan': (doc['waktuPengambilan'])
                     }))
                 .toList();
             return ListView.builder(

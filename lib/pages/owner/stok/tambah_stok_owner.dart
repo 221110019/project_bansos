@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
+import 'package:project_bansos/services/datetime_services.dart';
 import 'package:project_bansos/services/firestore_services.dart';
 
 class TambahStokOwner extends StatefulWidget {
@@ -11,28 +14,19 @@ class TambahStokOwner extends StatefulWidget {
 }
 
 class _TambahStokOwnerState extends State<TambahStokOwner> {
-  // void addSampleData() async {
-  //   await BarangStokDB().insertSampleData();
-  //   print("Sample data inserted.");
-  // }
   FirestoreServices firestoreServices = FirestoreServices();
+  DatetimeServices datetimeServices = DatetimeServices();
   TextEditingController namaController = TextEditingController();
   TextEditingController fotoController = TextEditingController();
   TextEditingController jumlahController = TextEditingController();
+  TextEditingController kadarluasaController = TextEditingController();
   TextEditingController deskripsiController = TextEditingController();
   String selectedKategori = 'Kue';
-
+  late DateTime? picked;
   final List<String> kategoriOptions = ['Kue', 'Alat', 'Acak'];
 
   void saveBarang() {
     if (namaController.text.isNotEmpty && jumlahController.text.isNotEmpty) {
-      // BarangStok barang = BarangStok(
-      // nama: namaController.text,
-      // foto: fotoController.text,
-      // jumlah: int.parse(jumlahController.text),
-      // kategori: selectedKategori,
-      // deskripsi: deskripsiController.text,
-      // );
       firestoreServices.createItemStock({
         'nama': namaController.text,
         'foto': fotoController.text,
@@ -40,15 +34,11 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
         'yangDijual': 0,
         'kategori': selectedKategori,
         'deskripsi': deskripsiController.text,
+        'kadarluasa': Timestamp.fromDate(picked!),
+        'harga': 0
       });
       ShortcutHelper.kataSistem(context, 'Barang berhasil ditambahkan');
       Navigator.of(context).pop();
-      // BarangStokDB().insert(barang).then((brgId) {
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(
-      //         content: Text('Barang berhasil ditambahkan dengan ID: $brgId')),
-      //   );
-      // });
     } else {
       ShortcutHelper.kataSistem(context, 'Mohon isi semuanya');
     }
@@ -65,24 +55,58 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
-                controller: namaController,
-                decoration: const InputDecoration(labelText: 'Nama Barang'),
+                controller: fotoController,
+                decoration: const InputDecoration(
+                    labelText: 'Foto', border: OutlineInputBorder()),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               TextField(
-                controller: fotoController,
-                decoration: const InputDecoration(labelText: 'Foto'),
+                controller: namaController,
+                decoration: const InputDecoration(
+                    labelText: 'Nama Barang', border: OutlineInputBorder()),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               TextField(
                 controller: jumlahController,
-                decoration: const InputDecoration(labelText: 'Jumlah Barang'),
+                decoration: const InputDecoration(
+                    labelText: 'Jumlah Barang', border: OutlineInputBorder()),
                 keyboardType: TextInputType.number,
               ),
-              // TextField(
-              //   controller: yangDijualController,
-              //   decoration:
-              //       const InputDecoration(labelText: 'Barang yang dijual'),
-              //   keyboardType: TextInputType.number,
-              // ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                readOnly: true,
+                onTap: () async {
+                  picked = await datetimeServices.selectDate(context);
+
+                  setState(() {
+                    if (picked != null) {
+                      kadarluasaController.text =
+                          DateFormat('dd MMMM yyyy').format(picked!).toString();
+                    }
+                  });
+                },
+                controller: kadarluasaController,
+                decoration: const InputDecoration(
+                    hintText: 'Kadarluasa',
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white))),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: deskripsiController,
+                decoration: const InputDecoration(
+                    labelText: 'Deskripsi', border: OutlineInputBorder()),
+              ),
+              const SizedBox(height: 10),
               DropdownButton<String>(
                 value: selectedKategori,
                 onChanged: (String? newValue) {
@@ -99,11 +123,6 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                 }).toList(),
                 hint: const Text('Pilih Kategori'),
               ),
-              TextField(
-                controller: deskripsiController,
-                decoration: const InputDecoration(labelText: 'Deskripsi'),
-              ),
-              const SizedBox(height: 20),
               TombolCustom(
                 onPressed: saveBarang,
                 child: const Text('Simpan Barang'),

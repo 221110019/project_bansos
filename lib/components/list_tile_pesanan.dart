@@ -28,7 +28,7 @@ Widget ListTilePesanan(BarangPreorder barangPreorder) {
                     style: TextStyle(fontSize: 15),
                   ),
                   Text(
-                      'Waktu Pengambilan: ${DateFormat('dd-MM-yyyy - kk:mm').format(barangPreorder.waktuPengambilan)}')
+                      'Waktu Pengambilan: ${DateFormat('dd-MM-yyyy - kk:mm').format(barangPreorder.waktuPengambilan.toDate())}')
                 ],
               )
             ],

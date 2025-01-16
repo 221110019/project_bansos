@@ -3,6 +3,9 @@
         android:label="project_bansos"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3075637998819667~4827630356"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

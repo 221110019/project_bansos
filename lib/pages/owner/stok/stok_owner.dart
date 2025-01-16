@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
@@ -21,11 +22,18 @@ class StokOwnerState extends State<StokOwner> {
   late Future<List<BarangStok>> futureBarangStok;
   List<BarangStok> semuaBarang = [];
   List<BarangStok> sampleBarang = [];
+  TextEditingController hargaController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     // futureBarangStok = loadBarangData();
+  }
+
+  @override
+  void dispose() {
+    hargaController.dispose();
+    super.dispose();
   }
 
   // Future<List<BarangStok>> loadBarangData() async {
@@ -60,19 +68,6 @@ class StokOwnerState extends State<StokOwner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // floatingActionButton: IconButton(
-        //   icon: Icon(Icons.refresh),
-        //   // onPressed: () async{
-        //   //           int result = await BarangStokDB().read();
-        //   //           if (result > 0) {
-        //   //             print("berhasil hapus");
-        //   //             Navigator.pop(context);
-        //   //           } else {
-        //   //             print("gagal hapus");
-        //   onPressed: loadBarangData,
-        //   // }
-        //   // },
-        // ),
         appBar: AppBar(
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,7 +114,9 @@ class StokOwnerState extends State<StokOwner> {
                         'jumlah': doc['jumlah'],
                         'yangDijual': doc['yangDijual'],
                         'kategori': doc['kategori'],
-                        'deskripsi': doc['deskripsi']
+                        'deskripsi': doc['deskripsi'],
+                        'harga': doc['harga'],
+                        'kadarluasa': doc['kadarluasa']
                       }))
                   .toList();
 
@@ -159,15 +156,15 @@ class StokOwnerState extends State<StokOwner> {
                                       ),
                                     ),
                                   ),
-                                  title: Text(
-                                    barang[index].nama.toUpperCase(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w900),
-                                  ),
-                                  subtitle: Row(
+                                  title: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
+                                      Text(
+                                        barang[index].nama.toUpperCase(),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w900),
+                                      ),
                                       Text("${barang[index].jumlah} stok"),
                                       Text(
                                           "${barang[index].jumlah - barang[index].yangDijual} dipakai"),
@@ -175,8 +172,18 @@ class StokOwnerState extends State<StokOwner> {
                                           "${barang[index].yangDijual} dijual"),
                                     ],
                                   ),
+                                  subtitle: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("harga: ${barang[index].harga}"),
+                                      Text(
+                                          "kadarluasa: ${DateFormat.yMMMMEEEEd().format(barang[index].kadarluasa.toDate())}")
+                                    ],
+                                  ),
                                   onTap: () {
-                                    UpdateStokOwner(barang[index])
+                                    UpdateStokOwner(
+                                            barang[index], hargaController)
                                         .showBottomSheet(context);
                                   },
                                 ),
