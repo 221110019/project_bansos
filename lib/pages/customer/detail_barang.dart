@@ -41,7 +41,7 @@ class _DetailBarangState extends State<DetailBarang> {
   }
 
   void preorder() {
-    if (itemPreorder != 0 || waktuPengambilan != null) {
+    if (itemPreorder != 0 && waktuPengambilan != null) {
       setState(() {
         firestoreServices.createPreorder({
           'namaBarang': widget.barangStok.nama,
