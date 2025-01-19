@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
+import 'package:project_bansos/provider/theme_provider.dart';
 import 'package:project_bansos/services/datetime_services.dart';
 import 'package:project_bansos/services/firestore_services.dart';
+import 'package:project_bansos/services/imagepicker_services.dart';
+import 'package:provider/provider.dart';
 
 class TambahStokOwner extends StatefulWidget {
   const TambahStokOwner({super.key});
@@ -14,6 +20,8 @@ class TambahStokOwner extends StatefulWidget {
 }
 
 class _TambahStokOwnerState extends State<TambahStokOwner> {
+  ImagepickerServices imagepickerServices = ImagepickerServices();
+  File? imageFile;
   FirestoreServices firestoreServices = FirestoreServices();
   DatetimeServices datetimeServices = DatetimeServices();
   TextEditingController namaController = TextEditingController();
@@ -25,23 +33,43 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
   late DateTime? picked;
   final List<String> kategoriOptions = ['Kue', 'Alat', 'Acak'];
 
-  void saveBarang() {
+  void saveBarang() async {
     if (namaController.text.isNotEmpty && jumlahController.text.isNotEmpty) {
+      String? imageUrl;
+      if (imageFile != null) {
+        try {
+          final ref = FirebaseStorage.instance.ref().child(
+              'item_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+          await ref.putFile(imageFile!);
+          imageUrl = await ref.getDownloadURL();
+          print('hai');
+        } catch (e) {
+          print('Failed to upload image: $e');
+          return;
+        }
+      }
       firestoreServices.createItemStock({
         'nama': namaController.text,
-        'foto': fotoController.text,
+        'foto': imageUrl ?? '',
         'jumlah': int.parse(jumlahController.text),
         'yangDijual': 0,
         'kategori': selectedKategori,
         'deskripsi': deskripsiController.text,
-        'kadarluasa': Timestamp.fromDate(picked!),
+        'kadarluasa': picked != null ? Timestamp.fromDate(picked!) : null,
         'harga': 0
       });
-      ShortcutHelper.kataSistem(context, 'Barang berhasil ditambahkan');
-      Navigator.of(context).pop();
+
+      print('Item saved successfully');
     } else {
-      ShortcutHelper.kataSistem(context, 'Mohon isi semuanya');
+      print('Please fill in all required fields');
     }
+  }
+
+  void addFoto() async {
+    final pickedImage = await imagepickerServices.pickImage();
+    setState(() {
+      imageFile = pickedImage;
+    });
   }
 
   @override
@@ -54,10 +82,28 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextField(
-                controller: fotoController,
-                decoration: const InputDecoration(
-                    labelText: 'Foto', border: OutlineInputBorder()),
+              GestureDetector(
+                onTap: addFoto,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      border: Border.all(
+                          color:
+                              Provider.of<ThemeProvider>(context, listen: false)
+                                      .terang
+                                  ? Colors.black
+                                  : Colors.white)),
+                  height: 200,
+                  child: imageFile == null
+                      ? Center(
+                          child: Icon(Icons.add),
+                        )
+                      : Image.file(
+                          imageFile!,
+                          fit: BoxFit.cover,
+                        ),
+                ),
               ),
               const SizedBox(
                 height: 10,

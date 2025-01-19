@@ -8,8 +8,7 @@ Widget ListTilePesanan(BarangPreorder barangPreorder) {
     child: SizedBox(
       height: 80,
       child: Card(
-        color: const Color.fromARGB(255, 84, 84, 84),
-        shape: BeveledRectangleBorder(),
+        // color: const Color.fromARGB(255, 84, 84, 84),
         child: Padding(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: Column(

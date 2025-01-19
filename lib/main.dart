@@ -87,6 +87,7 @@ class _MyAppState extends State<MyApp> {
                           )
                         : const ColorScheme.dark(
                             primary: Color.fromRGBO(200, 1, 1, 1),
+                            secondary: Color.fromRGBO(100, 0, 0, 1),
                             shadow: Colors.white,
                           ),
                 useMaterial3: true,

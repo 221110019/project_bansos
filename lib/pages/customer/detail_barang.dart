@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/services/auth_services.dart';
+import 'package:project_bansos/services/datetime_services.dart';
 import 'package:project_bansos/services/firestore_services.dart';
 
 class DetailBarang extends StatefulWidget {
@@ -17,6 +19,8 @@ class DetailBarang extends StatefulWidget {
 class _DetailBarangState extends State<DetailBarang> {
   FirestoreServices firestoreServices = FirestoreServices();
   AuthServices authServices = AuthServices();
+  DatetimeServices datetimeServices = DatetimeServices();
+  DateTime? waktuPengambilan = null;
   int itemPreorder = 0;
   void addPreorder() {
     setState(() {
@@ -35,17 +39,36 @@ class _DetailBarangState extends State<DetailBarang> {
   }
 
   void preorder() {
-    setState(() {
-      firestoreServices.createPreorder({
-        'namaBarang': widget.barangStok.nama,
-        'idPembeli': authServices.auth.currentUser!.uid,
-        'kategori': widget.barangStok.kategori,
-        'foto': widget.barangStok.foto,
-        'jumlah': itemPreorder,
-        'waktuPengambilan': DateTime.now()
-      }, widget.barangStok, authServices.auth.currentUser!.uid);
-    });
-    Navigator.of(context).pop();
+    if (itemPreorder != 0 || waktuPengambilan != null) {
+      setState(() {
+        firestoreServices.createPreorder({
+          'namaBarang': widget.barangStok.nama,
+          'idPembeli': authServices.auth.currentUser!.uid,
+          'kategori': widget.barangStok.kategori,
+          'foto': widget.barangStok.foto,
+          'jumlah': itemPreorder,
+          'waktuPengambilan': waktuPengambilan
+        }, widget.barangStok, authServices.auth.currentUser!.uid);
+      });
+      Navigator.of(context).pop();
+    }
+  }
+
+  void setWaktuPengambilan() async {
+    DateTime? selectedDate = await datetimeServices.selectDate(context);
+    TimeOfDay? selectedTime = await datetimeServices.selectTime(context);
+    if (selectedDate != null && selectedTime != null) {
+      setState(() {
+        waktuPengambilan = DateTime(
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.day,
+          selectedTime.hour,
+          selectedTime.minute,
+        );
+      });
+    }
+    print(waktuPengambilan);
   }
 
   @override
@@ -93,7 +116,10 @@ class _DetailBarangState extends State<DetailBarang> {
                       Row(
                         children: [
                           Text('Waktu pengambilan: '),
-                          Text('(belum diatur)'),
+                          waktuPengambilan == null
+                              ? Text('(belum diatur)')
+                              : Text(DateFormat('HH:mm, dd MMMM yyyy')
+                                  .format(waktuPengambilan!)),
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
@@ -101,7 +127,7 @@ class _DetailBarangState extends State<DetailBarang> {
                                 minimumSize: Size(0, 10),
                                 shape: BeveledRectangleBorder(),
                               ),
-                              onPressed: () {},
+                              onPressed: setWaktuPengambilan,
                               child: Text('Atur ',
                                   style: TextStyle(
                                     color: ShortcutHelper.warnaSurface(context),

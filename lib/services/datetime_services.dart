@@ -9,4 +9,12 @@ class DatetimeServices {
         lastDate: DateTime(2100));
     return picked;
   }
+
+  Future<TimeOfDay?> selectTime(BuildContext context) async {
+    TimeOfDay? time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    return time;
+  }
 }

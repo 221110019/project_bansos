@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:project_bansos/pages/customer/home_cust.dart';
+
 import 'package:project_bansos/provider/login_provider.dart';
 import 'package:project_bansos/provider/register_provider.dart';
 import 'package:provider/provider.dart';
