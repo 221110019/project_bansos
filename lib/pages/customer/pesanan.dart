@@ -68,7 +68,7 @@ class _PesananState extends State<Pesanan> {
                 itemBuilder: (context, index) {
                   return listPesanan[index].idPembeli ==
                           authServices.auth.currentUser!.uid
-                      ? ListTilePesanan(listPesanan[index])
+                      ? ListTilePesanan(listPesanan[index], context)
                       : SizedBox();
                 });
           }),

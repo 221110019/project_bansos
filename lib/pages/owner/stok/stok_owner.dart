@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -143,8 +145,8 @@ class StokOwnerState extends State<StokOwner> {
                                         barang[index].kategori.toUpperCase()),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(16),
-                                      child: Image.asset(
-                                        barang[index].foto,
+                                      child: Image.file(
+                                        File(barang[index].foto),
                                         width: 50,
                                         height: 50,
                                         fit: BoxFit.cover,

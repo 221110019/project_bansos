@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
@@ -90,8 +92,9 @@ class _DetailBarangState extends State<DetailBarang> {
                   height: 300,
                   width: MediaQuery.of(context).size.width,
                   child: Image(
-                    image: AssetImage(
-                      widget.barangStok.foto,
+                    fit: BoxFit.cover,
+                    image: FileImage(
+                      File(widget.barangStok.foto),
                     ),
                     errorBuilder: (context, error, stackTrace) {
                       return const AltGambarError(lebar: 50, tinggi: 50);

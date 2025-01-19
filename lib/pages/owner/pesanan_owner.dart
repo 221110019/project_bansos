@@ -57,7 +57,7 @@ class PesananOwner extends StatelessWidget {
               return ListView.builder(
                   itemCount: barang.length,
                   itemBuilder: (context, index) {
-                    return ListTilePesanan(barang[index]);
+                    return ListTilePesanan(barang[index], context);
                   });
 
               // return Column(

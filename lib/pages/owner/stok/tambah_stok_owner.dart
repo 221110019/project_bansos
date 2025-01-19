@@ -34,23 +34,25 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
   final List<String> kategoriOptions = ['Kue', 'Alat', 'Acak'];
 
   void saveBarang() async {
-    if (namaController.text.isNotEmpty && jumlahController.text.isNotEmpty) {
-      String? imageUrl;
-      if (imageFile != null) {
-        try {
-          final ref = FirebaseStorage.instance.ref().child(
-              'item_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
-          await ref.putFile(imageFile!);
-          imageUrl = await ref.getDownloadURL();
-          print('hai');
-        } catch (e) {
-          print('Failed to upload image: $e');
-          return;
-        }
-      }
+    if (namaController.text.isNotEmpty &&
+        jumlahController.text.isNotEmpty &&
+        imageFile?.path != null) {
+      // String? imageUrl;
+      // if (imageFile != null) {
+      //   try {
+      //     final ref = FirebaseStorage.instance.ref().child(
+      //         'item_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+      //     await ref.putFile(imageFile!);
+      //     imageUrl = await ref.getDownloadURL();
+      //     print('hai');
+      //   } catch (e) {
+      //     print('Failed to upload image: $e');
+      //     return;
+      //   }
+      // }
       firestoreServices.createItemStock({
         'nama': namaController.text,
-        'foto': imageUrl ?? '',
+        'foto': imageFile!.path,
         'jumlah': int.parse(jumlahController.text),
         'yangDijual': 0,
         'kategori': selectedKategori,
@@ -63,6 +65,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
     } else {
       print('Please fill in all required fields');
     }
+    Navigator.of(context).pop();
   }
 
   void addFoto() async {

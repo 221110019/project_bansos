@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/theme_switch.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
@@ -112,9 +113,35 @@ class DashboardOwner extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                isiCard(0, 'Jenis', 'Barang'),
-                isiCard(0, 'Total', 'Pesanan'),
-                isiCard(0, 'Akun', 'Pelanggan'),
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('stock_barang')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return isiCard(0, 'Jenis', 'Barang');
+                      }
+                      if (snapshot.hasError) {
+                        return isiCard(0, 'Jenis', 'Barang');
+                      }
+                      return isiCard(
+                          snapshot.data!.docs.length, 'Jenis', 'Barang');
+                    }),
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('preorder')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return isiCard(0, 'Total', 'Pesanan');
+                      }
+                      if (snapshot.hasError) {
+                        return isiCard(0, 'Total', 'Pesanan');
+                      }
+                      return isiCard(
+                          snapshot.data!.docs.length, 'Total', 'Pesanan');
+                    }),
+                isiCard(0, 'Akun', 'Pelanggan')
               ],
             ),
           )

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
@@ -35,10 +37,10 @@ class UpdateStokOwner {
                 const SizedBox(height: 10),
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  child: Image.asset(
-                    barang.foto,
+                  child: Image.file(
+                    File(barang.foto),
                     height: 100,
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return const AltGambarError(
                         lebar: 100,

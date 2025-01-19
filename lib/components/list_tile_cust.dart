@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
@@ -21,8 +23,8 @@ class ListTileCust extends StatelessWidget {
           label: Text(barang.kategori.toUpperCase()),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
-              barang.foto,
+            child: Image.file(
+              File(barang.foto),
               width: 50,
               height: 50,
               fit: BoxFit.cover,
