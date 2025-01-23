@@ -1,12 +1,9 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
-import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/provider/theme_provider.dart';
 import 'package:project_bansos/services/datetime_services.dart';
 import 'package:project_bansos/services/firestore_services.dart';
@@ -114,7 +111,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                                   : Colors.white)),
                   height: 200,
                   child: imageFile == null
-                      ? Center(
+                      ? const Center(
                           child: Icon(Icons.add),
                         )
                       : Image.file(
@@ -157,7 +154,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                 },
                 controller: kadarluasaController,
                 decoration: const InputDecoration(
-                    hintText: 'Kadarluasa',
+                    hintText: 'Kedaluwarsa',
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white))),

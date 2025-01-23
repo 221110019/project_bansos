@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/theme_switch.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/helper/exp_stok_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
+import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/services/auth_services.dart';
 
 void main() {
@@ -21,9 +23,16 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class DashboardOwner extends StatelessWidget {
+class DashboardOwner extends StatefulWidget {
   const DashboardOwner({super.key});
 
+  @override
+  State<DashboardOwner> createState() => _DashboardOwnerState();
+}
+
+class _DashboardOwnerState extends State<DashboardOwner> {
+  bool warning1 = false;
+  bool warning2 = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,14 +51,15 @@ class DashboardOwner extends StatelessWidget {
           Divider(color: ShortcutHelper.warnaOnSurface(context)),
           pengaturanUtama(context),
           Divider(color: ShortcutHelper.warnaOnSurface(context)),
+          warning1
+              ? peringatan(
+                  context, 'Ada stok yang/akan habis', Icons.warehouse_rounded)
+              : const SizedBox.shrink(),
+          warning2
+              ? peringatan(context, 'Ada barang yang/akan expired',
+                  Icons.warning_amber_rounded)
+              : const SizedBox.shrink(),
           rekap(context),
-          // Hanya muncul jika stok habis
-          peringatan(context, 'Stok akan habis', Icons.warehouse_rounded),
-          // hanya muncul jika ada barang expired
-          peringatan(context, 'Ada barang yang akan expired',
-              Icons.warning_amber_rounded),
-          daftarStokHabis(),
-          daftarStokExpired(),
         ],
       ),
     );
@@ -59,11 +69,15 @@ class DashboardOwner extends StatelessWidget {
     AuthServices authServices = AuthServices();
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          const ThemeSwitch(),
-          Text(ShortcutHelper.sekarang().toUpperCase()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const ThemeSwitch(),
+              Text(IndomieHelper.sekarang().toUpperCase()),
+            ],
+          ),
           TombolCustom(
               onPressed: () {
                 authServices.logoutUser();
@@ -78,12 +92,12 @@ class DashboardOwner extends StatelessWidget {
   Container rekap(BuildContext context) {
     Container isiCard(int jumlah, String nama1, String nama2) {
       return Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 2),
         child: Column(
           children: [
             Text(
               jumlah.toString(),
-              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
+              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 50),
             ),
             Text(
               nama1.toUpperCase(),
@@ -113,35 +127,103 @@ class DashboardOwner extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('stock_barang')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return isiCard(0, 'Jenis', 'Barang');
-                      }
-                      if (snapshot.hasError) {
-                        return isiCard(0, 'Jenis', 'Barang');
-                      }
-                      return isiCard(
-                          snapshot.data!.docs.length, 'Jenis', 'Barang');
-                    }),
-                StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('preorder')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return isiCard(0, 'Total', 'Pesanan');
-                      }
-                      if (snapshot.hasError) {
-                        return isiCard(0, 'Total', 'Pesanan');
-                      }
-                      return isiCard(
-                          snapshot.data!.docs.length, 'Total', 'Pesanan');
-                    }),
-                isiCard(0, 'Akun', 'Pelanggan')
+                Column(
+                  children: [
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('stock_barang')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return isiCard(0, 'Jenis', 'Barang');
+                        }
+                        if (snapshot.hasError || !snapshot.hasData) {
+                          return isiCard(0, 'Jenis', 'Barang');
+                        }
+                        List<BarangStok> barang =
+                            snapshot.data!.docs.map((doc) {
+                          final data = doc.data();
+                          return BarangStok.fromMap({
+                            'id': doc.id,
+                            'nama': data['nama'],
+                            'kategori': data['kategori'],
+                            'foto': data['foto'],
+                            'jumlah': data['jumlah'],
+                            'yangDijual': data['yangDijual'],
+                            'deskripsi': data['deskripsi'],
+                            'harga': data['harga'],
+                            'kadarluasa': data['kadarluasa'],
+                          });
+                        }).toList();
+                        int expiredCount = barang.where((item) {
+                          return BarangStok.cekBarangExpired([item]);
+                        }).length;
+                        warning1 = true;
+                        return Column(
+                          children: [
+                            isiCard(barang.length, 'Jenis', 'Barang'),
+                            isiCard(expiredCount, 'Barang', 'Expired'),
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('preorder')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return isiCard(0, 'Total', 'Pesanan');
+                        }
+                        if (snapshot.hasError || !snapshot.hasData) {
+                          return isiCard(0, 'Total', 'Pesanan');
+                        }
+                        return isiCard(
+                            snapshot.data!.docs.length, 'Total', 'Pesanan');
+                      },
+                    ),
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('stock_barang')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return isiCard(0, 'Stok', 'Habis');
+                        }
+                        if (snapshot.hasError || !snapshot.hasData) {
+                          return isiCard(0, 'Stok', 'Habis');
+                        }
+                        List<BarangStok> barang =
+                            snapshot.data!.docs.map((doc) {
+                          final data = doc.data();
+                          return BarangStok.fromMap({
+                            'id': doc.id,
+                            'nama': data['nama'],
+                            'kategori': data['kategori'],
+                            'foto': data['foto'],
+                            'jumlah': data['jumlah'],
+                            'yangDijual': data['yangDijual'],
+                            'deskripsi': data['deskripsi'],
+                            'harga': data['harga'],
+                            'kadarluasa': data['kadarluasa'],
+                          });
+                        }).toList();
+                        int lowStockCount = barang
+                            .where((item) => BarangStok.cekSisaStok([item]))
+                            .length;
+                        warning2 = true;
+                        return isiCard(lowStockCount, 'Stok', 'Sisa Sedikit');
+                      },
+                    ),
+                  ],
+                )
               ],
             ),
           )
@@ -180,13 +262,5 @@ class DashboardOwner extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget daftarStokHabis() {
-    return Container();
-  }
-
-  Widget daftarStokExpired() {
-    return Container();
   }
 }

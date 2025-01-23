@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/helper/exp_stok_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/pages/owner/stok/filter_stok_owner.dart';
@@ -87,7 +87,10 @@ class StokOwnerState extends State<StokOwner> {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const TambahStokOwner()));
                 },
-                child: const Icon(Icons.assignment_add),
+                child: Icon(
+                  Icons.assignment_add,
+                  color: ShortcutHelper.warnaOnPrimary(context),
+                ),
               ),
             ],
           ),
@@ -144,7 +147,7 @@ class StokOwnerState extends State<StokOwner> {
                                     label: Text(
                                         barang[index].kategori.toUpperCase()),
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(16),
+                                      borderRadius: BorderRadius.circular(15),
                                       child: Image.file(
                                         File(barang[index].foto),
                                         width: 50,
@@ -158,31 +161,49 @@ class StokOwnerState extends State<StokOwner> {
                                       ),
                                     ),
                                   ),
-                                  title: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                  title: Column(
                                     children: [
-                                      Text(
-                                        barang[index].nama.toUpperCase(),
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w900),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            barang[index].nama.toUpperCase(),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w900),
+                                          ),
+                                          Text(
+                                            "${ShortcutHelper.rupiahkan(barang[index].harga)}",
+                                            style:
+                                                const TextStyle(fontSize: 10),
+                                          ),
+                                        ],
                                       ),
-                                      Text("${barang[index].jumlah} stok"),
-                                      Text(
-                                          "${barang[index].jumlah - barang[index].yangDijual} dipakai"),
-                                      Text(
-                                          "${barang[index].yangDijual} dijual"),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                              "${barang[index].jumlah} stok >"),
+                                          Text(
+                                              " ${barang[index].jumlah - barang[index].yangDijual} dipakai +"),
+                                          Text(
+                                              "${barang[index].yangDijual} dijual"),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                   subtitle: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("harga: ${barang[index].harga}"),
                                       barang[index].kadarluasa != null
                                           ? Text(
-                                              "kadarluasa: ${DateFormat.yMMMMEEEEd().format(barang[index].kadarluasa!.toDate())}")
-                                          : SizedBox()
+                                              'Kedaluwarsa : ${IndomieHelper.waktuExpired(barang[index].kadarluasa!.toDate())}',
+                                              style:
+                                                  const TextStyle(fontSize: 10),
+                                            )
+                                          : const SizedBox()
                                     ],
                                   ),
                                   onTap: () {

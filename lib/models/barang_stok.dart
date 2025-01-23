@@ -73,4 +73,14 @@ class BarangStok {
       yangDijual -= 1;
     }
   }
+
+  static bool cekSisaStok(List<BarangStok> barang) {
+    return barang.any((item) => item.jumlah <= 5);
+  }
+
+  static bool cekBarangExpired(List<BarangStok> barang) {
+    DateTime now = DateTime.now();
+    return barang.any((item) =>
+        item.kadarluasa != null && item.kadarluasa!.toDate().isBefore(now));
+  }
 }

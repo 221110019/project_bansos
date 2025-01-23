@@ -20,101 +20,105 @@ class UpdateStokOwner {
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          return Container(
-            width: ShortcutHelper.lebarFull(context),
-            height: ShortcutHelper.tinggiFull(context) * 0.95,
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'UPDATE STOK',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: ShortcutHelper.warnaPrimary(context)),
-                ),
-                const SizedBox(height: 10),
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  child: Image.file(
-                    File(barang.foto),
-                    height: 100,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const AltGambarError(
-                        lebar: 100,
-                        tinggi: 100,
+          return SingleChildScrollView(
+            child: Container(
+              width: ShortcutHelper.lebarFull(context),
+              height: ShortcutHelper.tinggiFull(context),
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'UPDATE STOK',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: ShortcutHelper.warnaPrimary(context)),
+                  ),
+                  const SizedBox(height: 10),
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    child: Image.file(
+                      File(barang.foto),
+                      height: 100,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const AltGambarError(
+                          lebar: 100,
+                          tinggi: 100,
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Kategori : ${barang.kategori}',
+                    textAlign: TextAlign.start,
+                  ),
+                  Text(
+                    barang.nama.toUpperCase(),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.w900),
+                  ),
+                  Text(
+                      'Kedaluwarsa : ${(DateFormat('dd-MM-yyyy').format(barang.kadarluasa!.toDate()))}'),
+                  const Divider(),
+                  Text(
+                    'Stok: ${barang.jumlah}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  UpdateCounter(barang: barang, jenisBarang: 'stok'),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Yang di jual: ${barang.yangDijual}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 10),
+                  UpdateCounter(
+                    barang: barang,
+                    jenisBarang: 'yang dijual',
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                      width: 100,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: hargaController,
+                        decoration: InputDecoration(
+                            hintText: "Rp.${barang.harga}",
+                            border: const OutlineInputBorder()),
+                      )),
+                  const SizedBox(height: 10),
+                  TombolCustom(
+                    onPressed: () async {
+                      if (hargaController.text.trim() != '') {
+                        barang.harga = int.parse(hargaController.text.trim());
+                      }
+                      firestoreServices.updateItemStock(
+                        barang,
                       );
+                      print(barang.harga);
+                      Navigator.pop(context);
+                      ShortcutHelper.kataSistem(
+                          context, 'Stok berhasil diperbarui');
                     },
+                    child: const Text("SELESAI"),
                   ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Kategori : ${barang.kategori}',
-                  textAlign: TextAlign.start,
-                ),
-                Text(
-                  barang.nama.toUpperCase(),
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.w900),
-                ),
-                const Divider(),
-                Text(
-                  'Stok: ${barang.jumlah}',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                UpdateCounter(barang: barang, jenisBarang: 'stok'),
-                const SizedBox(height: 20),
-                Text(
-                  'Yang di jual: ${barang.yangDijual}',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 20),
-                UpdateCounter(
-                  barang: barang,
-                  jenisBarang: 'yang dijual',
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                    width: 100,
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: hargaController,
-                      decoration: InputDecoration(
-                          hintText: "Rp.${barang.harga}",
-                          border: const OutlineInputBorder()),
-                    )),
-                const SizedBox(height: 10),
-                TombolCustom(
-                  onPressed: () async {
-                    if (hargaController.text.trim() != '') {
-                      barang.harga = int.parse(hargaController.text.trim());
-                    }
-                    firestoreServices.updateItemStock(
-                      barang,
-                    );
-                    print(barang.harga);
-                    Navigator.pop(context);
-                    ShortcutHelper.kataSistem(
-                        context, 'Stok berhasil diperbarui');
-                  },
-                  child: const Text("SELESAI"),
-                ),
-                IconButton.outlined(
-                  tooltip: 'Hapus barang',
-                  onPressed: () async {
-                    firestoreServices.deleteItemStock(barang.id);
-                    Navigator.pop(context);
-                    ShortcutHelper.kataSistem(
-                        context, 'Barang berhasil dihapus');
-                  },
-                  icon: Icon(
-                    Icons.delete,
-                    color: ShortcutHelper.warnaPrimary(context),
+                  IconButton.outlined(
+                    tooltip: 'Hapus barang',
+                    onPressed: () async {
+                      firestoreServices.deleteItemStock(barang.id);
+                      Navigator.pop(context);
+                      ShortcutHelper.kataSistem(
+                          context, 'Barang berhasil dihapus');
+                    },
+                    icon: Icon(
+                      Icons.delete,
+                      color: ShortcutHelper.warnaPrimary(context),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },

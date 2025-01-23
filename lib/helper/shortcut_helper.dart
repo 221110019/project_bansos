@@ -44,12 +44,6 @@ class ShortcutHelper {
     return formatter.format(amount);
   }
 
-  static String sekarang() {
-    final now = DateTime.now();
-    final formatTanggal = DateFormat('dd MMMM yyyy', Intl.defaultLocale);
-    return formatTanggal.format(now);
-  }
-
   static ScaffoldFeatureController kataSistem(
       BuildContext context, String pesan) {
     return ScaffoldMessenger.of(context).showSnackBar(
