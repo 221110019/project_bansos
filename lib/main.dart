@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => LoginProvider(),
           ),
           ChangeNotifierProvider(
-            create: (context) => OwnerBottomNavProvider(),
+            create: (context) => OwnerMetaProvider(),
           ),
           ChangeNotifierProvider(create: (context) => FilterStockProvider())
         ],

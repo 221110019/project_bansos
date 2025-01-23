@@ -18,9 +18,9 @@ class HomeOwner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ownerBottomNavProvider =
-        Provider.of<OwnerBottomNavProvider>(context, listen: true);
+        Provider.of<OwnerMetaProvider>(context, listen: true);
     return Scaffold(
-        body: Consumer<OwnerBottomNavProvider>(
+        body: Consumer<OwnerMetaProvider>(
           builder: (context, provider, child) {
             return tabs[provider.currentIndex];
           },

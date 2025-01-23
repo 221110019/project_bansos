@@ -11,6 +11,7 @@ import 'package:project_bansos/pages/owner/stok/filter_stok_owner.dart';
 import 'package:project_bansos/pages/owner/stok/tambah_stok_owner.dart';
 import 'package:project_bansos/pages/owner/stok/update_stok_owner.dart';
 import 'package:project_bansos/provider/filter_stock_provider.dart';
+import 'package:project_bansos/provider/owner_bottom_nav_provider.dart';
 import 'package:provider/provider.dart';
 
 class StokOwner extends StatefulWidget {
@@ -124,7 +125,12 @@ class StokOwnerState extends State<StokOwner> {
                         'kadarluasa': doc['kadarluasa']
                       }))
                   .toList();
-
+              context.read<OwnerMetaProvider>().countExp(barang.where((item) {
+                    return BarangStok.cekBarangExpired([item]);
+                  }).length);
+              context.read<OwnerMetaProvider>().countStokHabis(barang
+                  .where((item) => BarangStok.cekSisaStok([item]))
+                  .length);
               return Column(
                 children: [
                   const FilterStokOwner(),
