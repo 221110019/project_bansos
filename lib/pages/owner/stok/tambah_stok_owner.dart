@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/provider/theme_provider.dart';
@@ -68,6 +69,20 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
     Navigator.of(context).pop();
   }
 
+  void _requestCameraPermission() async {
+    var status = await Permission.camera.status;
+    if (status.isGranted) {
+      print('kamera sudah diizinkan');
+      addFoto();
+    } else if (status.isDenied) {
+      await Permission.camera.request();
+      print('kamera tidak diizinkan');
+    } else if (status.isPermanentlyDenied) {
+      openAppSettings();
+      print('kamera tidak diizinkan secara permanen');
+    }
+  }
+
   void addFoto() async {
     final pickedImage = await imagepickerServices.pickImage();
     setState(() {
@@ -86,7 +101,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GestureDetector(
-                onTap: addFoto,
+                onTap: _requestCameraPermission,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(

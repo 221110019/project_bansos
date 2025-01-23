@@ -9,14 +9,14 @@ class BarangStok {
   String kategori;
   String deskripsi;
   int harga;
-  Timestamp kadarluasa;
+  Timestamp? kadarluasa;
   BarangStok(
       {required this.id,
       required this.nama,
       required this.foto,
       required this.kategori,
       required this.deskripsi,
-      required this.kadarluasa,
+      this.kadarluasa,
       this.jumlah = 0,
       this.yangDijual = 0,
       this.harga = 0});

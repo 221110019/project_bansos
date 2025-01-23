@@ -179,8 +179,10 @@ class StokOwnerState extends State<StokOwner> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text("harga: ${barang[index].harga}"),
-                                      Text(
-                                          "kadarluasa: ${DateFormat.yMMMMEEEEd().format(barang[index].kadarluasa.toDate())}")
+                                      barang[index].kadarluasa != null
+                                          ? Text(
+                                              "kadarluasa: ${DateFormat.yMMMMEEEEd().format(barang[index].kadarluasa!.toDate())}")
+                                          : SizedBox()
                                     ],
                                   ),
                                   onTap: () {
