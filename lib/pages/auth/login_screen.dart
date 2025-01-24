@@ -3,7 +3,6 @@ import 'package:project_bansos/components/auth_textfield.dart';
 import 'package:project_bansos/components/theme_switch.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
-import 'package:project_bansos/pages/customer/home_cust.dart';
 import 'package:project_bansos/provider/login_provider.dart';
 import 'package:project_bansos/services/auth_services.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     FocusScope.of(context).unfocus();
     authServices.loginUser(
         emailController.text, passwordController.text, context);
+    ShortcutHelper.notifWoe(context).createLoginNotification();
   }
 
   @override

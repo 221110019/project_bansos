@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_bansos/provider/theme_provider.dart';
+import 'package:project_bansos/services/notification_service.dart';
 import 'package:provider/provider.dart';
 
 class ShortcutHelper {
@@ -55,5 +56,9 @@ class ShortcutHelper {
         duration: const Duration(seconds: 2),
       ),
     );
+  }
+
+  static NotificationService notifWoe(BuildContext context) {
+    return NotificationService(context);
   }
 }

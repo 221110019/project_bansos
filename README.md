@@ -7,10 +7,3 @@ asan123
 
 asistenAsan@gmail.com
 221110019
-
-# S Task
-
-- Accesibilitas (bahasa)
-- Permission (Notifikasi)
-- Icon aplikasi
-- request pesanan

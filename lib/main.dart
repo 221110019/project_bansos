@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:project_bansos/pages/auth/auth_state.dart';
@@ -16,6 +17,23 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MobileAds.instance.initialize();
   await Firebase.initializeApp();
+  AwesomeNotifications().initialize('resource://drawable/launch_background', [
+    // .initialize(null, [
+    NotificationChannel(
+        channelKey: 'welcome',
+        channelName: 'Welcome',
+        importance: NotificationImportance.High,
+        channelDescription: 'To welcome new user'),
+    NotificationChannel(
+        channelKey: 'log_in',
+        channelName: 'Log In',
+        importance: NotificationImportance.High,
+        channelDescription: 'Login confirmation for account protection'),
+    NotificationChannel(
+        channelKey: 'log_out',
+        channelName: 'Log Out',
+        channelDescription: 'Log Out'),
+  ]);
   runApp(
     MultiProvider(
       providers: [

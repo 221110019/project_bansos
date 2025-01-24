@@ -78,7 +78,8 @@ class _DashboardOwnerState extends State<DashboardOwner> {
           TombolCustom(
               onPressed: () {
                 authServices.logoutUser();
-                ShortcutHelper.kataSistem(context, 'Berhasil keluar');
+                ShortcutHelper.notifWoe(context).createLogoutNotification();
+                // ShortcutHelper.kataSistem(context, 'Berhasil keluar');
               },
               child: const Text('Logout'))
         ],
