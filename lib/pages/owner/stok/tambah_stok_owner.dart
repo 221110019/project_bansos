@@ -157,7 +157,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                 },
                 controller: kadarluasaController,
                 decoration: InputDecoration(
-                    hintText: CakapHelper.tulisan(context)!.o_dash_6,
+                    hintText: CakapHelper.tulisan(context)!.o_dash_5,
                     border: const OutlineInputBorder(),
                     focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white))),
