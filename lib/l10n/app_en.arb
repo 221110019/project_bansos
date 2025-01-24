@@ -1,0 +1,17 @@
+{
+  "intro_1": "WELCOME to TOKO ASAN",
+  "intro_2": "Do you already have an account?",
+  "intro_3": "YES",
+  "intro_4": "Login now",
+  "intro_5": "NOT YET",
+  "intro_6": "Register account",
+  "login_1": "LOGIN",
+  "login_2": "Enter your email",
+  "login_3": "Enter your password",
+  "login_4": "Haven't got an account?",
+  "login_5": "Register",
+  "reg_1": "CONFIRM PASSWORD",
+  "reg_2": "Confirm your password",
+  "reg_3": "Already have an account?",
+  "reg_4": "Login"
+}

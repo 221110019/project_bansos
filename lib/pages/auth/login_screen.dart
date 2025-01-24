@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/auth_textfield.dart';
+import 'package:project_bansos/components/language_button.dart';
 import 'package:project_bansos/components/theme_switch.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/provider/login_provider.dart';
 import 'package:project_bansos/services/auth_services.dart';
@@ -46,23 +48,29 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ThemeSwitch(), //hapus kalau tak perlu
-              const Text(
-                "LOGIN",
-                style: TextStyle(fontSize: 30),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ThemeSwitch(),
+                  LanguageButton(),
+                ],
+              ),
+              Text(
+                CakapHelper.tulisan(context)!.login_1,
+                style: const TextStyle(fontSize: 30),
               ),
               AuthTextfield(
                   errorText: Provider.of<LoginProvider>(context).emailError,
                   controller: emailController,
-                  prefixIcon: Icon(Icons.alternate_email),
+                  prefixIcon: const Icon(Icons.alternate_email),
                   labelText: "EMAIL",
-                  helperText: "Isi email Anda"),
+                  helperText: CakapHelper.tulisan(context)!.login_2),
               AuthTextfield(
                 errorText: Provider.of<LoginProvider>(context).passwordError,
                 controller: passwordController,
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 labelText: "PASSWORD",
-                helperText: "Isi password Anda",
+                helperText: CakapHelper.tulisan(context)!.login_3,
                 obsecureText: true,
               ),
               TextButton(
@@ -73,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        "Belum punya akun?",
+                        CakapHelper.tulisan(context)!.login_4,
                         style: TextStyle(
                           color: ShortcutHelper.warnaOnSurface(context),
                         ),
@@ -81,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         width: 15,
                       ),
-                      const Text("Register"),
+                      Text(CakapHelper.tulisan(context)!.login_5),
                     ],
                   )),
               const SizedBox(
@@ -89,11 +97,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               TombolCustom(
                   onPressed: login,
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.login),
-                      Text("LOGIN"),
+                      const Icon(Icons.login),
+                      Text(CakapHelper.tulisan(context)!.login_1),
                     ],
                   )),
               // TextButton(

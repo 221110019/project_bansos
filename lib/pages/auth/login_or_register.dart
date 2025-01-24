@@ -13,7 +13,7 @@ class LoginOrRegister extends StatefulWidget {
 class _LoginOrRegisterState extends State<LoginOrRegister> {
   void toggleScreens() {
     setState(() {
-      print('hai');
+      // print('hai');
       widget.showLoginPage = !widget.showLoginPage;
     });
   }

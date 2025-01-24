@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/auth_textfield.dart';
+import 'package:project_bansos/components/language_button.dart';
 import 'package:project_bansos/components/theme_switch.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/provider/register_provider.dart';
 import 'package:project_bansos/services/auth_services.dart';
@@ -50,23 +52,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ThemeSwitch(),
-              const Text(
-                "REGISTER",
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ThemeSwitch(),
+                  LanguageButton(),
+                ],
+              ),
+              Text(
+                CakapHelper.tulisan(context)!.login_5,
                 style: TextStyle(fontSize: 30),
               ),
               AuthTextfield(
                 errorText: Provider.of<RegisterProvider>(context).emailError,
                 prefixIcon: Icon(Icons.alternate_email),
                 labelText: "EMAIL",
-                helperText: "Isi email Anda",
+                helperText: CakapHelper.tulisan(context)!.login_2,
                 controller: emailController,
               ),
               AuthTextfield(
                 errorText: Provider.of<RegisterProvider>(context).passwordError,
                 prefixIcon: Icon(Icons.lock),
                 labelText: "PASSWORD",
-                helperText: "Isi password Anda",
+                helperText: CakapHelper.tulisan(context)!.login_3,
                 obsecureText: true,
                 controller: passwordController,
               ),
@@ -74,8 +82,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 errorText:
                     Provider.of<RegisterProvider>(context).confirmPasswordError,
                 prefixIcon: Icon(Icons.lock),
-                labelText: "KONFIRMASI PASSWORD",
-                helperText: "Konfirmasi password Anda",
+                labelText: CakapHelper.tulisan(context)!.reg_1,
+                helperText: CakapHelper.tulisan(context)!.reg_2,
                 obsecureText: true,
                 controller: confirmPasswordController,
               ),
@@ -89,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        "Sudah punya akun?",
+                        CakapHelper.tulisan(context)!.reg_3,
                         style: TextStyle(
                           color: ShortcutHelper.warnaOnSurface(context),
                         ),
@@ -97,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(
                         width: 15,
                       ),
-                      const Text("Login"),
+                      Text(CakapHelper.tulisan(context)!.reg_4),
                     ],
                   )),
               const SizedBox(
@@ -105,11 +113,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               TombolCustom(
                   onPressed: register,
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.login),
-                      Text("DAFTAR AKUN"),
+                      Text(CakapHelper.tulisan(context)!.intro_6.toUpperCase()),
                     ],
                   ))
             ],

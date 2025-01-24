@@ -12,6 +12,7 @@ import 'package:project_bansos/provider/owner_bottom_nav_provider.dart';
 import 'package:project_bansos/provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -93,6 +94,9 @@ class _MyAppState extends State<MyApp> {
         child:
             Consumer<ThemeProvider>(builder: (context, themeProvider, child) {
           return MaterialApp(
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              locale: Locale(context.watch<ThemeProvider>().bahasaNow),
               title: 'TOKO ASAN',
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
