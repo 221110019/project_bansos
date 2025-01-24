@@ -177,7 +177,7 @@ class StokOwnerState extends State<StokOwner> {
                                     children: [
                                       barang[index].kadarluasa != null
                                           ? Text(
-                                              '${CakapHelper.tulisan(context)!.o_dash_6} : ${IndomieHelper.waktuExpired(context, barang[index].kadarluasa!.toDate())}',
+                                              '${CakapHelper.tulisan(context)!.o_dash_5} : ${IndomieHelper.waktuExpired(context, barang[index].kadarluasa!.toDate())}',
                                               style:
                                                   const TextStyle(fontSize: 10),
                                             )
