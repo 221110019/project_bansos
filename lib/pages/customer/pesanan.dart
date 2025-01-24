@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/list_tile_pesanan.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_preorder.dart';
 import 'package:project_bansos/services/auth_services.dart';
@@ -30,7 +31,7 @@ class _PesananState extends State<Pesanan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pesanan'),
+        title: Text(CakapHelper.tulisan(context)!.o_home_2),
       ),
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
@@ -49,7 +50,8 @@ class _PesananState extends State<Pesanan> {
             } else if (snapshot.data!.docs.isEmpty ||
                 !isThere(
                     snapshot.data?.docs, authServices.auth.currentUser!.uid)) {
-              return const Center(child: Text("No items found"));
+              return Center(
+                  child: Text(CakapHelper.tulisan(context)!.o_pesan_2));
             }
 
             List<BarangPreorder> listPesanan = snapshot.data!.docs
@@ -69,7 +71,7 @@ class _PesananState extends State<Pesanan> {
                   return listPesanan[index].idPembeli ==
                           authServices.auth.currentUser!.uid
                       ? listTilePesanan(listPesanan[index], context)
-                      : SizedBox();
+                      : const SizedBox();
                 });
           }),
     );

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
@@ -31,7 +30,6 @@ class StokOwnerState extends State<StokOwner> {
   @override
   void initState() {
     super.initState();
-    // futureBarangStok = loadBarangData();
   }
 
   @override
@@ -39,35 +37,6 @@ class StokOwnerState extends State<StokOwner> {
     hargaController.dispose();
     super.dispose();
   }
-
-  // Future<List<BarangStok>> loadBarangData() async {
-  //   List<BarangStok> data = await BarangStokDB().read();
-  //   setState(() {
-  //     semuaBarang = data;
-  //     sampleBarang = data;
-  //   });
-  //   return data;
-  // }
-
-  // void filterStok(String selectedValue) {
-  // print("Filtering with value: $selectedValue");
-  // List<BarangStok> filteredList;
-  // if (selectedValue == 'Kue') {
-  //   filteredList =
-  //       semuaBarang.where((barang) => barang.kategori == "Kue").toList();
-  // } else if (selectedValue == 'Alat') {
-  //   filteredList =
-  //       semuaBarang.where((barang) => barang.kategori == "Alat").toList();
-  // } else if (selectedValue == 'Acak') {
-  //   filteredList =
-  //       semuaBarang.where((barang) => barang.kategori == "Acak").toList();
-  // } else {
-  //   filteredList = semuaBarang;
-  // }
-  // setState(() {
-  //   sampleBarang = filteredList;
-  // });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -231,69 +200,3 @@ class StokOwnerState extends State<StokOwner> {
             }));
   }
 }
-// FutureBuilder<List<BarangStok>>(
-//         future: futureBarangStok,
-//         builder: (context, snapshot) {
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return Center(
-//                 child: CircularProgressIndicator(
-//               color: ShortcutHelper.warnaPrimary(context),
-//             ));
-//           } else if (snapshot.hasError) {
-//             return Center(child: Text("Error: ${snapshot.error}"));
-//           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-//             return const Center(child: Text("No items found"));
-//           }
-          // return Column(
-          //   children: [
-          //     FilterStokOwner(
-          //       onSelectionChanged: (selectedValue) {
-          //         filterStok(selectedValue);
-          //       },
-          //     ),
-          //     Expanded(
-          //       child: ListView.builder(
-          //         itemCount: sampleBarang.length,
-          //         itemBuilder: (context, index) {
-          //           return Card(
-          //             elevation: 1.5,
-          //             surfaceTintColor: ShortcutHelper.warnaPrimary(context),
-          //             child: ListTile(
-          //               leading: ClipOval(
-          //                 child: Image.asset(
-          //                   sampleBarang[index].foto,
-          //                   width: 50,
-          //                   height: 50,
-          //                   fit: BoxFit.cover,
-          //                   errorBuilder: (context, error, stackTrace) {
-          //                     return const ClipOval(
-          //                       child: SizedBox(
-          //                         width: 50,
-          //                         height: 50,
-          //                         child: Placeholder(),
-          //                       ),
-          //                     );
-          //                   },
-          //                 ),
-          //               ),
-          //               trailing: Badge(
-          //                 backgroundColor:
-          //                     ShortcutHelper.warnaOnSurface(context),
-          //                 label:
-          //                     Text(sampleBarang[index].kategori.toUpperCase()),
-          //               ),
-          //               title: Text(sampleBarang[index].nama),
-          //               subtitle: Text("Stok: ${sampleBarang[index].jumlah}"),
-          //               onTap: () {
-          //                 UpdateStokOwner(sampleBarang[index], loadBarangData)
-          //                     .showBottomSheet(context);
-          //               },
-          //             ),
-          //           );
-          //         },
-          //       ),
-          //     ),
-          //   ],
-          // );
-      //   },
-      // ),

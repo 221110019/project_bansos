@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/services/auth_services.dart';
@@ -77,10 +78,10 @@ class _DetailBarangState extends State<DetailBarang> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detail barang'),
+        title: Text(CakapHelper.tulisan(context)!.cust_detail_1),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +89,7 @@ class _DetailBarangState extends State<DetailBarang> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
+                SizedBox(
                   height: 300,
                   width: MediaQuery.of(context).size.width,
                   child: Image(
@@ -101,85 +102,84 @@ class _DetailBarangState extends State<DetailBarang> {
                     },
                   ),
                 ),
-                SizedBox(height: 10),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.barangStok.nama,
-                        style: TextStyle(
-                            fontSize: 40, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "Jumlah : ${widget.barangStok.yangDijual.toString()}",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      Text('Deskripsi: ${widget.barangStok.deskripsi}'),
-                      Row(
-                        children: [
-                          Text('Waktu pengambilan: '),
-                          waktuPengambilan == null
-                              ? Text('(belum diatur)')
-                              : Text(DateFormat('HH:mm, dd MMMM yyyy')
-                                  .format(waktuPengambilan!)),
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    ShortcutHelper.warnaOnSurface(context),
-                                minimumSize: Size(0, 10),
-                                shape: BeveledRectangleBorder(),
-                              ),
-                              onPressed: setWaktuPengambilan,
-                              child: Text('Atur ',
-                                  style: TextStyle(
-                                    color: ShortcutHelper.warnaSurface(context),
-                                  )))
-                        ],
-                      ),
-                    ],
-                  ),
+                const SizedBox(height: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.barangStok.nama,
+                      style: const TextStyle(
+                          fontSize: 40, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "${CakapHelper.tulisan(context)!.list_tile_pesanan_2} : ${widget.barangStok.yangDijual.toString()}",
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                        '${CakapHelper.tulisan(context)!.o_add_stok_4}: ${widget.barangStok.deskripsi}'),
+                    Row(
+                      children: [
+                        Text(
+                            '${CakapHelper.tulisan(context)!.list_tile_pesanan_3}: '),
+                        waktuPengambilan == null
+                            ? Text(CakapHelper.tulisan(context)!.cust_detail_2)
+                            : Text(DateFormat('HH:mm, dd MMMM yyyy')
+                                .format(waktuPengambilan!)),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  ShortcutHelper.warnaOnSurface(context),
+                              minimumSize: const Size(0, 10),
+                              shape: const BeveledRectangleBorder(),
+                            ),
+                            onPressed: setWaktuPengambilan,
+                            child: Text(
+                                CakapHelper.tulisan(context)!.cust_detail_3,
+                                style: TextStyle(
+                                  color: ShortcutHelper.warnaSurface(context),
+                                )))
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
-            Container(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                          onPressed: removePreorder,
-                          icon: Icon(
-                            Icons.remove,
-                            size: 40,
-                          )),
-                      Text(
-                        itemPreorder.toString(),
-                        style: TextStyle(fontSize: 30),
-                      ),
-                      IconButton(
-                          onPressed: addPreorder,
-                          icon: Icon(
-                            Icons.add,
-                            size: 40,
-                          ))
-                    ],
-                  ),
-                  Container(
-                    width: double.infinity,
-                    child: TombolCustom(
-                        onPressed: preorder,
-                        child: Text(
-                          'Preorder',
-                          style: TextStyle(color: Colors.white),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        onPressed: removePreorder,
+                        icon: const Icon(
+                          Icons.remove,
+                          size: 40,
                         )),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  )
-                ],
-              ),
+                    Text(
+                      itemPreorder.toString(),
+                      style: const TextStyle(fontSize: 30),
+                    ),
+                    IconButton(
+                        onPressed: addPreorder,
+                        icon: const Icon(
+                          Icons.add,
+                          size: 40,
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: TombolCustom(
+                      onPressed: preorder,
+                      child: const Text(
+                        'Preorder',
+                        style: TextStyle(color: Colors.white),
+                      )),
+                ),
+                const SizedBox(
+                  height: 20,
+                )
+              ],
             ),
           ],
         ),

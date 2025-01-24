@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/pages/customer/barang.dart';
 import 'package:project_bansos/pages/customer/pesanan.dart';
@@ -13,7 +14,11 @@ class HomeCust extends StatefulWidget {
 
 class _HomeCustState extends State<HomeCust> {
   int bottomNavIndex = 0;
-  final List _children = [Barang(searchButton: () {}), Pesanan(), Profil()];
+  final List _children = [
+    Barang(searchButton: () {}),
+    const Pesanan(),
+    const Profil()
+  ];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -34,11 +39,14 @@ class _HomeCustState extends State<HomeCust> {
               fixedColor: ShortcutHelper.warnaPrimary(context),
               items: [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.grid_view), label: 'Barang'),
+                    icon: const Icon(Icons.grid_view),
+                    label: CakapHelper.tulisan(context)!.cust_barang_1),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.receipt_long), label: 'Pesanan'),
+                    icon: const Icon(Icons.receipt_long),
+                    label: CakapHelper.tulisan(context)!.o_home_2),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.person), label: 'Profil')
+                    icon: const Icon(Icons.person),
+                    label: CakapHelper.tulisan(context)!.cust_barang_1)
               ]),
         ),
       ),

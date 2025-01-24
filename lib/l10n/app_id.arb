@@ -1,4 +1,12 @@
 {
+  "cust_barang_1": "Barang",
+  "cust_detail_1": "Detail barang",
+  "cust_detail_2": "(belum diatur)",
+  "cust_detail_3": "Atur ",
+  "cust_home": "Profil",
+  "cust_profile_1": "Tampilan",
+  "cust_profile_2": "Mode Terang",
+  "cust_profile_3": "Bahasa",
   "h_exp_1": "hari",
   "h_exp_2": "jam",
   "h_exp_3": "menit",

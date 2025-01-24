@@ -61,18 +61,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               Text(
                 CakapHelper.tulisan(context)!.login_5,
-                style: TextStyle(fontSize: 30),
+                style: const TextStyle(fontSize: 30),
               ),
               AuthTextfield(
                 errorText: Provider.of<RegisterProvider>(context).emailError,
-                prefixIcon: Icon(Icons.alternate_email),
+                prefixIcon: const Icon(Icons.alternate_email),
                 labelText: "EMAIL",
                 helperText: CakapHelper.tulisan(context)!.login_2,
                 controller: emailController,
               ),
               AuthTextfield(
                 errorText: Provider.of<RegisterProvider>(context).passwordError,
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 labelText: "PASSWORD",
                 helperText: CakapHelper.tulisan(context)!.login_3,
                 obsecureText: true,
@@ -81,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               AuthTextfield(
                 errorText:
                     Provider.of<RegisterProvider>(context).confirmPasswordError,
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 labelText: CakapHelper.tulisan(context)!.reg_1,
                 helperText: CakapHelper.tulisan(context)!.reg_2,
                 obsecureText: true,
@@ -116,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.login),
+                      const Icon(Icons.login),
                       Text(CakapHelper.tulisan(context)!.intro_6.toUpperCase()),
                     ],
                   ))

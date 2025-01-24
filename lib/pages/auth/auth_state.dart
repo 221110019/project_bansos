@@ -32,9 +32,9 @@ class _AuthStateState extends State<AuthState> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (authServices.auth.currentUser!.email == 'asan@gmail.com') {
-                return HomeOwner();
+                return const HomeOwner();
               } else {
-                return HomeCust();
+                return const HomeCust();
               }
             } else {
               return LoginOrRegister(showLoginPage: widget.showLoginPage);

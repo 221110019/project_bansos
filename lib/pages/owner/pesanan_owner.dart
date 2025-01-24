@@ -61,49 +61,6 @@ class PesananOwner extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return listTilePesanan(barang[index], context);
                   });
-
-              // return Column(
-              //   children: [
-              //     // FilterStokOwner(),
-              //     Expanded(
-              //       child: ListView.builder(
-              //         itemCount: barang.length,
-              //         itemBuilder: (context, index) {
-              //           return barang[index].kategori ==
-              //                   Provider.of<FilterStockProvider>(context)
-              //                       .selectedValue
-              //               ? ListTile(
-              //                   leading: ClipOval(
-              //                     child: Image.asset(
-              //                       barang[index].foto,
-              //                       width: 50,
-              //                       height: 50,
-              //                       fit: BoxFit.cover,
-              //                       errorBuilder: (context, error, stackTrace) {
-              //                         return const AltGambarError(
-              //                             lebar: 50, tinggi: 50);
-              //                       },
-              //                     ),
-              //                   ),
-              //                   trailing: Badge(
-              //                     backgroundColor:
-              //                         ShortcutHelper.warnaPrimary(context),
-              //                     label: Text(
-              //                         barang[index].kategori.toUpperCase()),
-              //                   ),
-              //                   title: Text(barang[index].nama),
-              //                   subtitle: Text("Stok: ${barang[index].jumlah}"),
-              //                   onTap: () {
-              //                     // UpdateStokOwner(barang[index])
-              //                     //     .showBottomSheet(context);
-              //                   },
-              //                 )
-              //               : const SizedBox();
-              //         },
-              //       ),
-              //     ),
-              //   ],
-              // );
             }));
   }
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:project_bansos/components/list_tile_cust.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/pages/customer/detail_barang.dart';
@@ -32,7 +33,7 @@ class _BarangState extends State<Barang> {
           } else if (snapshot.hasError) {
             return Center(child: Text("Error: ${snapshot.error}"));
           } else if (snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text("No items found"));
+            return Center(child: Text(CakapHelper.tulisan(context)!.o_pesan_2));
           }
           List<BarangStok> barang = snapshot.data!.docs
               .map((doc) => BarangStok.fromMap({
@@ -48,7 +49,7 @@ class _BarangState extends State<Barang> {
                   }))
               .toList();
           return Container(
-            padding: EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 20),
             child: ListView.builder(
                 itemCount: barang.length,
                 itemBuilder: (context, index) {
@@ -63,7 +64,7 @@ class _BarangState extends State<Barang> {
                                     )));
                           },
                         )
-                      : SizedBox();
+                      : const SizedBox();
                 }),
           );
         });
@@ -88,25 +89,26 @@ class _BarangState extends State<Barang> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          bottom: const TabBar(
+          bottom: TabBar(
             dividerColor: Colors.transparent,
             splashFactory: NoSplash.splashFactory,
             tabs: [
               Tab(
-                text: 'KUE',
+                text: CakapHelper.tulisan(context)!.o_filter_1.toUpperCase(),
               ),
               Tab(
-                text: 'ALAT',
+                text: CakapHelper.tulisan(context)!.o_filter_2.toUpperCase(),
               ),
               Tab(
-                text: 'ACAK',
+                text: CakapHelper.tulisan(context)!.o_filter_3.toUpperCase(),
               ),
             ],
           ),
           automaticallyImplyLeading: false,
-          title: Text('Barang'),
+          title: Text(CakapHelper.tulisan(context)!.cust_barang_1),
           actions: [
-            IconButton(onPressed: widget.searchButton, icon: Icon(Icons.search))
+            IconButton(
+                onPressed: widget.searchButton, icon: const Icon(Icons.search))
           ],
         ),
         body: TabBarView(

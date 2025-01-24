@@ -128,7 +128,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                 controller: namaController,
                 decoration: InputDecoration(
                     labelText: CakapHelper.tulisan(context)!.o_add_stok_2,
-                    border: OutlineInputBorder()),
+                    border: const OutlineInputBorder()),
               ),
               const SizedBox(
                 height: 10,
@@ -137,7 +137,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                 controller: jumlahController,
                 decoration: InputDecoration(
                     labelText: CakapHelper.tulisan(context)!.o_add_stok_3,
-                    border: OutlineInputBorder()),
+                    border: const OutlineInputBorder()),
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(
@@ -158,8 +158,8 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                 controller: kadarluasaController,
                 decoration: InputDecoration(
                     hintText: CakapHelper.tulisan(context)!.o_dash_6,
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
+                    border: const OutlineInputBorder(),
+                    focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white))),
               ),
               const SizedBox(
@@ -169,7 +169,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                 controller: deskripsiController,
                 decoration: InputDecoration(
                     labelText: CakapHelper.tulisan(context)!.o_add_stok_4,
-                    border: OutlineInputBorder()),
+                    border: const OutlineInputBorder()),
               ),
               const SizedBox(height: 10),
               DropdownButton<String>(

@@ -1,10 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
-import 'package:project_bansos/pages/owner/stok/update_stok_owner.dart';
 
 class ListTileCust extends StatelessWidget {
   final BarangStok barang;
@@ -38,7 +37,8 @@ class ListTileCust extends StatelessWidget {
           barang.nama.toUpperCase(),
           style: const TextStyle(fontWeight: FontWeight.w900),
         ),
-        subtitle: Text("${barang.yangDijual} stok"),
+        subtitle: Text(
+            "${barang.yangDijual} ${CakapHelper.tulisan(context)!.o_home_1.toLowerCase()}"),
         onTap: ontap,
       ),
     );

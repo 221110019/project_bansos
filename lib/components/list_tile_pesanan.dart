@@ -12,7 +12,6 @@ Padding listTilePesanan(BarangPreorder barangPreorder, context) {
       width: ShortcutHelper.lebarFull(context),
       child: Card(
         surfaceTintColor: ShortcutHelper.warnaPrimary(context),
-        // color: const Color.fromARGB(255, 84, 84, 84),
         child: Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
@@ -24,7 +23,7 @@ Padding listTilePesanan(BarangPreorder barangPreorder, context) {
                       flex: 2,
                       child: Text(
                           CakapHelper.tulisan(context)!.list_tile_pesanan_1,
-                          style: TextStyle(fontSize: 20)),
+                          style: const TextStyle(fontSize: 20)),
                     ),
                     Expanded(
                       flex: 3,
@@ -54,7 +53,7 @@ Padding listTilePesanan(BarangPreorder barangPreorder, context) {
                       flex: 2,
                       child: Text(
                         CakapHelper.tulisan(context)!.list_tile_pesanan_3,
-                        style: TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 12),
                       ),
                     ),
                     Expanded(
@@ -67,19 +66,7 @@ Padding listTilePesanan(BarangPreorder barangPreorder, context) {
                   ],
                 ),
               ],
-            )
-
-            // Text(
-            //   "Nama:${barangPreorder.namaBarang}".toUpperCase(),
-            //   style: const TextStyle(fontSize: 20),
-            // ),
-            // Text(
-            //   "Jumlah:  ${barangPreorder.jumlah}",
-            //   style: const TextStyle(fontSize: 15),
-            // ),
-            // Text(
-            //     'Waktu Pengambilan: ${ShortcutHelper.berapaLamaLagi(barangPreorder)}')
-            ),
+            )),
       ),
     ),
   );

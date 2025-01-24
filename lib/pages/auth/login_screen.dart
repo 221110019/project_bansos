@@ -104,12 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(CakapHelper.tulisan(context)!.login_1),
                     ],
                   )),
-              // TextButton(
-              //     onPressed: () {
-              //       Navigator.of(context).pushReplacement(
-              //           MaterialPageRoute(builder: (context) => HomeCust()));
-              //     },
-              //     child: Text('Home Page Customer'))
             ],
           ),
         ),

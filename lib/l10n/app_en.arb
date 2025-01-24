@@ -1,4 +1,12 @@
 {
+  "cust_barang_1": "Item",
+  "cust_detail_1": "Item Details",
+  "cust_detail_2": "(unconfigured)",
+  "cust_detail_3": "Configure",
+  "cust_home": "Profile",
+  "cust_profile_1": "Display",
+  "cust_profile_2": "Light Mode",
+  "cust_profile_3": "Language",
   "h_exp_1": "days",
   "h_exp_2": "hours",
   "h_exp_3": "minutes",
@@ -56,7 +64,7 @@
   "reg_2": "Confirm your password",
   "reg_3": "Already have an account?",
   "reg_4": "Login",
-  "theme_1": "Activate mode",
-  "theme_2": "bright",
-  "theme_3": "dark"
+  "theme_1": "Activated: ",
+  "theme_2": "bright mode",
+  "theme_3": "dark mode"
 }
