@@ -36,19 +36,6 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
     if (namaController.text.isNotEmpty &&
         jumlahController.text.isNotEmpty &&
         imageFile?.path != null) {
-      // String? imageUrl;
-      // if (imageFile != null) {
-      //   try {
-      //     final ref = FirebaseStorage.instance.ref().child(
-      //         'item_images/${DateTime.now().millisecondsSinceEpoch}.jpg');
-      //     await ref.putFile(imageFile!);
-      //     imageUrl = await ref.getDownloadURL();
-      //     print('hai');
-      //   } catch (e) {
-      //     print('Failed to upload image: $e');
-      //     return;
-      //   }
-      // }
       firestoreServices.createItemStock({
         'nama': namaController.text,
         'foto': imageFile!.path,
