@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 
 class IndomieHelper {
   static String sekarang() {
@@ -7,28 +9,31 @@ class IndomieHelper {
     return formatTanggal.format(now);
   }
 
-  static String waktuPengambilan(DateTime waktuPengambilan) {
+  static String waktuPengambilan(context, DateTime waktuPengambilan) {
     DateTime now = DateTime.now();
     DateTime target = waktuPengambilan;
     Duration difference = target.difference(now);
 
-    String remainingTime =
-        '${difference.inDays} hari, ${difference.inHours % 24} jam, ${difference.inMinutes % 60} menit';
-    return remainingTime;
+    String remainingTime(BuildContext context) {
+      return '${difference.inDays} ${CakapHelper.tulisan(context)!.h_exp_1}, ${difference.inHours % 24} ${CakapHelper.tulisan(context)!.h_exp_2}, ${difference.inMinutes % 60} ${CakapHelper.tulisan(context)!.h_exp_3}';
+    }
+
+    return remainingTime(context);
   }
 
-  static String waktuExpired(DateTime waktuKadarluasa) {
+  static String waktuExpired(BuildContext context, DateTime waktuKadarluasa) {
     DateTime now = DateTime.now();
     Duration difference = waktuKadarluasa.difference(now);
 
     if (difference.isNegative) {
-      return "! Sudah Kedaluwarsa !".toUpperCase();
+      return "! ${CakapHelper.tulisan(context)!.h_exp_4} !".toUpperCase();
     }
 
-    String remainingTime =
-        '${difference.inDays} hari, ${difference.inHours % 24} jam, ${difference.inMinutes % 60} menit';
+    String remainingTime(BuildContext context) {
+      return '${difference.inDays} ${CakapHelper.tulisan(context)!.h_exp_1}, ${difference.inHours % 24} ${CakapHelper.tulisan(context)!.h_exp_2}, ${difference.inMinutes % 60} ${CakapHelper.tulisan(context)!.h_exp_3}';
+    }
 
-    return remainingTime;
+    return remainingTime(context);
   }
 
   // static bool cekSisaStok(List<BarangPreorder> barang) {

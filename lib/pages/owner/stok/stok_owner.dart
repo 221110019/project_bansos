@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/exp_stok_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
@@ -76,7 +77,7 @@ class StokOwnerState extends State<StokOwner> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "STOK BARANG",
+                CakapHelper.tulisan(context)!.o_stok_1,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -109,7 +110,8 @@ class StokOwnerState extends State<StokOwner> {
               } else if (snapshot.hasError) {
                 return Center(child: Text("Error: ${snapshot.error}"));
               } else if (snapshot.data!.docs.isEmpty) {
-                return const Center(child: Text("No items found"));
+                return Center(
+                    child: Text(CakapHelper.tulisan(context)!.o_pesan_2));
               }
               // print(snapshot.data!.docs[0].data());
               List<BarangStok> barang = snapshot.data!.docs
@@ -179,7 +181,8 @@ class StokOwnerState extends State<StokOwner> {
                                                 fontWeight: FontWeight.w900),
                                           ),
                                           Text(
-                                            "${ShortcutHelper.rupiahkan(barang[index].harga)}",
+                                            ShortcutHelper.rupiahkan(
+                                                barang[index].harga),
                                             style:
                                                 const TextStyle(fontSize: 10),
                                           ),
@@ -190,11 +193,11 @@ class StokOwnerState extends State<StokOwner> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                              "${barang[index].jumlah} stok >"),
+                                              "${barang[index].jumlah} ${CakapHelper.tulisan(context)!.o_home_1.toLowerCase()} >"),
                                           Text(
-                                              " ${barang[index].jumlah - barang[index].yangDijual} dipakai +"),
+                                              " ${barang[index].jumlah - barang[index].yangDijual} ${CakapHelper.tulisan(context)!.o_stok_2} +"),
                                           Text(
-                                              "${barang[index].yangDijual} dijual"),
+                                              "${barang[index].yangDijual} ${CakapHelper.tulisan(context)!.o_stok_3}"),
                                         ],
                                       ),
                                     ],
@@ -205,7 +208,7 @@ class StokOwnerState extends State<StokOwner> {
                                     children: [
                                       barang[index].kadarluasa != null
                                           ? Text(
-                                              'Kedaluwarsa : ${IndomieHelper.waktuExpired(barang[index].kadarluasa!.toDate())}',
+                                              '${CakapHelper.tulisan(context)!.o_dash_6} : ${IndomieHelper.waktuExpired(context, barang[index].kadarluasa!.toDate())}',
                                               style:
                                                   const TextStyle(fontSize: 10),
                                             )

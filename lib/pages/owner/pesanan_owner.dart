@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_bansos/components/list_tile_pesanan.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_preorder.dart';
 
@@ -15,7 +16,7 @@ class PesananOwner extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "DAFTAR PESANAN",
+                CakapHelper.tulisan(context)!.o_pesan_1,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -38,7 +39,8 @@ class PesananOwner extends StatelessWidget {
                 return Center(child: Text("Error: ${snapshot.error}"));
               } else if (snapshot.data!.docs.isEmpty ||
                   snapshot.data?.docs == null) {
-                return const Center(child: Text("No items found"));
+                return Center(
+                    child: Text(CakapHelper.tulisan(context)!.o_pesan_2));
               }
               print(snapshot.data!.docs);
               // print(snapshot.data!.docs[0].data());

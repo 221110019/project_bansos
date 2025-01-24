@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/exp_stok_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_preorder.dart';
@@ -19,9 +20,11 @@ Padding listTilePesanan(BarangPreorder barangPreorder, context) {
               children: [
                 Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       flex: 2,
-                      child: Text('Nama', style: TextStyle(fontSize: 20)),
+                      child: Text(
+                          CakapHelper.tulisan(context)!.list_tile_pesanan_1,
+                          style: TextStyle(fontSize: 20)),
                     ),
                     Expanded(
                       flex: 3,
@@ -34,9 +37,10 @@ Padding listTilePesanan(BarangPreorder barangPreorder, context) {
                 ),
                 Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       flex: 2,
-                      child: Text('Jumlah'),
+                      child: Text(
+                          CakapHelper.tulisan(context)!.list_tile_pesanan_2),
                     ),
                     Expanded(
                       flex: 3,
@@ -46,17 +50,17 @@ Padding listTilePesanan(BarangPreorder barangPreorder, context) {
                 ),
                 Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       flex: 2,
                       child: Text(
-                        'Waktu Pengambilan',
+                        CakapHelper.tulisan(context)!.list_tile_pesanan_3,
                         style: TextStyle(fontSize: 12),
                       ),
                     ),
                     Expanded(
                       flex: 3,
                       child: Text(
-                        ': ${IndomieHelper.waktuPengambilan(barangPreorder.waktuPengambilan.toDate())}',
+                        ': ${IndomieHelper.waktuPengambilan(context, barangPreorder.waktuPengambilan.toDate())}',
                         style: const TextStyle(fontSize: 12),
                       ),
                     ),

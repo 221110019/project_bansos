@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 
 class ThemeSwitch extends StatelessWidget {
@@ -14,7 +15,7 @@ class ThemeSwitch extends StatelessWidget {
         onChanged: (value) {
           themeProvider.toggleTema();
           ShortcutHelper.kataSistem(context,
-              "Mengaktifkan mode ${themeProvider.terang ? 'terang' : 'gelap'}");
+              "${CakapHelper.tulisan(context)!.theme_1} ${themeProvider.terang ? CakapHelper.tulisan(context)!.theme_2 : CakapHelper.tulisan(context)!.theme_3}");
         },
         thumbIcon: WidgetStateProperty.resolveWith<Icon?>(
           (Set<WidgetState> states) {

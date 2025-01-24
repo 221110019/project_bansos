@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/provider/theme_provider.dart';
 import 'package:project_bansos/services/datetime_services.dart';
 import 'package:project_bansos/services/firestore_services.dart';
@@ -90,7 +91,7 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Tambah Barang')),
+      appBar: AppBar(title: Text(CakapHelper.tulisan(context)!.o_add_stok_1)),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(16.0),
@@ -125,16 +126,18 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
               ),
               TextField(
                 controller: namaController,
-                decoration: const InputDecoration(
-                    labelText: 'Nama Barang', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    labelText: CakapHelper.tulisan(context)!.o_add_stok_2,
+                    border: OutlineInputBorder()),
               ),
               const SizedBox(
                 height: 10,
               ),
               TextField(
                 controller: jumlahController,
-                decoration: const InputDecoration(
-                    labelText: 'Jumlah Barang', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    labelText: CakapHelper.tulisan(context)!.o_add_stok_3,
+                    border: OutlineInputBorder()),
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(
@@ -153,8 +156,8 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                   });
                 },
                 controller: kadarluasaController,
-                decoration: const InputDecoration(
-                    hintText: 'Kedaluwarsa',
+                decoration: InputDecoration(
+                    hintText: CakapHelper.tulisan(context)!.o_dash_6,
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white))),
@@ -164,8 +167,9 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
               ),
               TextField(
                 controller: deskripsiController,
-                decoration: const InputDecoration(
-                    labelText: 'Deskripsi', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    labelText: CakapHelper.tulisan(context)!.o_add_stok_4,
+                    border: OutlineInputBorder()),
               ),
               const SizedBox(height: 10),
               DropdownButton<String>(
@@ -182,11 +186,11 @@ class _TambahStokOwnerState extends State<TambahStokOwner> {
                     child: Text(value),
                   );
                 }).toList(),
-                hint: const Text('Pilih Kategori'),
+                hint: Text(CakapHelper.tulisan(context)!.o_add_stok_5),
               ),
               TombolCustom(
                 onPressed: saveBarang,
-                child: const Text('Simpan Barang'),
+                child: Text(CakapHelper.tulisan(context)!.o_add_stok_6),
               ),
             ],
           ),

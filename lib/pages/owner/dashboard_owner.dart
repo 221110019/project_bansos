@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_bansos/components/language_button.dart';
 import 'package:project_bansos/components/theme_switch.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/exp_stok_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/services/auth_services.dart';
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Dashboard Owner',
+      title: 'Owner Dashboard',
       home: DashboardOwner(),
     );
   }
@@ -39,7 +41,7 @@ class _DashboardOwnerState extends State<DashboardOwner> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Dashboard Owner".toUpperCase(),
+          "Owner Dashboard".toUpperCase(),
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -49,16 +51,20 @@ class _DashboardOwnerState extends State<DashboardOwner> {
       ),
       body: Column(
         children: [
+          Text(
+            IndomieHelper.sekarang().toUpperCase(),
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
           Divider(color: ShortcutHelper.warnaOnSurface(context)),
           pengaturanUtama(context),
           Divider(color: ShortcutHelper.warnaOnSurface(context)),
           rekap(context),
           context.read<OwnerMetaProvider>().jumlahStHabis > 0
-              ? peringatan(
-                  context, 'Ada stok yang/akan habis', Icons.warehouse_rounded)
+              ? peringatan(context, CakapHelper.tulisan(context)!.o_dash_1,
+                  Icons.warehouse_rounded)
               : const SizedBox.shrink(),
           context.read<OwnerMetaProvider>().jumlahExp > 0
-              ? peringatan(context, 'Ada barang yang/akan expired',
+              ? peringatan(context, CakapHelper.tulisan(context)!.o_dash_2,
                   Icons.warning_amber_rounded)
               : const SizedBox.shrink(),
         ],
@@ -74,14 +80,13 @@ class _DashboardOwnerState extends State<DashboardOwner> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const ThemeSwitch(),
-          Text(IndomieHelper.sekarang().toUpperCase()),
+          const LanguageButton(),
           TombolCustom(
               onPressed: () {
                 authServices.logoutUser();
                 ShortcutHelper.notifWoe(context).createLogoutNotification();
-                // ShortcutHelper.kataSistem(context, 'Berhasil keluar');
               },
-              child: const Text('Logout'))
+              child: Text(CakapHelper.tulisan(context)!.o_dash_3))
         ],
       ),
     );
@@ -134,17 +139,27 @@ class _DashboardOwnerState extends State<DashboardOwner> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return isiCard(0, 'Jenis', 'Barang');
+                          return isiCard(
+                              0,
+                              CakapHelper.tulisan(context)!.o_dash_6,
+                              CakapHelper.tulisan(context)!.o_dash_4);
                         }
                         if (snapshot.hasError || !snapshot.hasData) {
-                          return isiCard(0, 'Jenis', 'Barang');
+                          return isiCard(
+                              0,
+                              CakapHelper.tulisan(context)!.o_dash_6,
+                              CakapHelper.tulisan(context)!.o_dash_4);
                         }
                         return isiCard(
-                            snapshot.data!.docs.length, 'Jenis', 'Barang');
+                            snapshot.data!.docs.length,
+                            CakapHelper.tulisan(context)!.o_dash_6,
+                            CakapHelper.tulisan(context)!.o_dash_4);
                       },
                     ),
-                    isiCard(context.read<OwnerMetaProvider>().jumlahExp,
-                        'Barang', 'Expired'),
+                    isiCard(
+                        context.read<OwnerMetaProvider>().jumlahExp,
+                        CakapHelper.tulisan(context)!.o_dash_4,
+                        CakapHelper.tulisan(context)!.o_dash_5),
                   ],
                 ),
                 Column(
@@ -156,17 +171,21 @@ class _DashboardOwnerState extends State<DashboardOwner> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return isiCard(0, 'Total', 'Pesanan');
+                          return isiCard(0, 'Total',
+                              CakapHelper.tulisan(context)!.o_dash_7);
                         }
                         if (snapshot.hasError || !snapshot.hasData) {
-                          return isiCard(0, 'Total', 'Pesanan');
+                          return isiCard(0, 'Total',
+                              CakapHelper.tulisan(context)!.o_dash_7);
                         }
-                        return isiCard(
-                            snapshot.data!.docs.length, 'Total', 'Pesanan');
+                        return isiCard(snapshot.data!.docs.length, 'Total',
+                            CakapHelper.tulisan(context)!.o_dash_7);
                       },
                     ),
-                    isiCard(context.read<OwnerMetaProvider>().jumlahStHabis,
-                        'Stok', 'Sisa Sedikit')
+                    isiCard(
+                        context.read<OwnerMetaProvider>().jumlahStHabis,
+                        CakapHelper.tulisan(context)!.o_home_1,
+                        CakapHelper.tulisan(context)!.o_dash_8)
                   ],
                 )
               ],
@@ -179,7 +198,7 @@ class _DashboardOwnerState extends State<DashboardOwner> {
 
   Container peringatan(BuildContext context, String isi, IconData ikon) {
     return Container(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       margin: const EdgeInsets.only(top: 8),
       width: ShortcutHelper.lebarFull(context) * 0.85,
       decoration: BoxDecoration(

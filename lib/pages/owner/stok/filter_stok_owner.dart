@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/provider/filter_stock_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -19,10 +20,10 @@ class FilterStokOwnerState extends State<FilterStokOwner> {
             .changeSelectedChoice(index);
         Provider.of<FilterStockProvider>(context, listen: false)
             .changeSelectedValue(index == 0
-                ? 'Kue'
+                ? "Kue"
                 : index == 1
-                    ? 'Alat'
-                    : 'Acak');
+                    ? "Alat"
+                    : "Acak");
       });
     }
   }
@@ -36,21 +37,21 @@ class FilterStokOwnerState extends State<FilterStokOwner> {
         runSpacing: 4.0,
         children: [
           ChoiceChip(
-            label: const Text('Kue'),
+            label: Text(CakapHelper.tulisan(context)!.o_filter_1),
             selectedColor: const Color.fromRGBO(200, 0, 0, 1), // Red color
             selected:
                 context.watch<FilterStockProvider>().selectedChoiceIndex == 0,
             onSelected: (selected) => onChipSelected(0),
           ),
           ChoiceChip(
-            label: const Text('Alat'),
+            label: Text(CakapHelper.tulisan(context)!.o_filter_2),
             selectedColor: const Color.fromRGBO(200, 0, 0, 1),
             selected:
                 context.watch<FilterStockProvider>().selectedChoiceIndex == 1,
             onSelected: (selected) => onChipSelected(1),
           ),
           ChoiceChip(
-            label: const Text('Acak'),
+            label: Text(CakapHelper.tulisan(context)!.o_filter_3),
             selectedColor: const Color.fromRGBO(200, 0, 0, 1),
             selected:
                 context.watch<FilterStockProvider>().selectedChoiceIndex == 2,

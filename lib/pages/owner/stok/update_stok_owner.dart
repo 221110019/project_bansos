@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_bansos/components/alt_gambar_error.dart';
 import 'package:project_bansos/components/tombol_custom.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/models/barang_stok.dart';
 import 'package:project_bansos/services/firestore_services.dart';
@@ -30,7 +31,7 @@ class UpdateStokOwner {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'UPDATE STOK',
+                    CakapHelper.tulisan(context)!.o_update_s_1,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: ShortcutHelper.warnaPrimary(context)),
@@ -52,7 +53,7 @@ class UpdateStokOwner {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Kategori : ${barang.kategori}',
+                    '${CakapHelper.tulisan(context)!.o_update_s_2} : ${barang.kategori}',
                     textAlign: TextAlign.start,
                   ),
                   Text(
@@ -61,16 +62,16 @@ class UpdateStokOwner {
                         fontSize: 24, fontWeight: FontWeight.w900),
                   ),
                   Text(
-                      'Kedaluwarsa : ${(DateFormat('dd-MM-yyyy').format(barang.kadarluasa!.toDate()))}'),
+                      '${CakapHelper.tulisan(context)!.o_dash_6} : ${(DateFormat('dd-MM-yyyy').format(barang.kadarluasa!.toDate()))}'),
                   const Divider(),
                   Text(
-                    'Stok: ${barang.jumlah}',
+                    '${CakapHelper.tulisan(context)!.o_home_1}: ${barang.jumlah}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   UpdateCounter(barang: barang, jenisBarang: 'stok'),
                   const SizedBox(height: 10),
                   Text(
-                    'Yang di jual: ${barang.yangDijual}',
+                    '${CakapHelper.tulisan(context)!.o_update_s_3}: ${barang.yangDijual}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 10),
@@ -100,17 +101,17 @@ class UpdateStokOwner {
                       print(barang.harga);
                       Navigator.pop(context);
                       ShortcutHelper.kataSistem(
-                          context, 'Stok berhasil diperbarui');
+                          context, CakapHelper.tulisan(context)!.o_update_s_4);
                     },
-                    child: const Text("SELESAI"),
+                    child: Text(CakapHelper.tulisan(context)!.o_update_s_5),
                   ),
                   IconButton.outlined(
-                    tooltip: 'Hapus barang',
+                    tooltip: CakapHelper.tulisan(context)!.o_update_s_6,
                     onPressed: () async {
                       firestoreServices.deleteItemStock(barang.id);
                       Navigator.pop(context);
                       ShortcutHelper.kataSistem(
-                          context, 'Barang berhasil dihapus');
+                          context, CakapHelper.tulisan(context)!.o_update_s_7);
                     },
                     icon: Icon(
                       Icons.delete,

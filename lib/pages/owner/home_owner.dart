@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_bansos/helper/cakap_helper.dart';
 import 'package:project_bansos/helper/shortcut_helper.dart';
 import 'package:project_bansos/pages/owner/dashboard_owner.dart';
 import 'package:project_bansos/pages/owner/pesanan_owner.dart';
@@ -32,13 +33,15 @@ class HomeOwner extends StatelessWidget {
           unselectedItemColor: ShortcutHelper.warnaOnSurface(context),
           showSelectedLabels: true,
           showUnselectedLabels: true,
-          items: const [
-            BottomNavigationBarItem(
+          items: [
+            const BottomNavigationBarItem(
                 icon: Icon(Icons.dashboard), label: 'Dashboard'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.assignment), label: 'Stok'),
+                icon: const Icon(Icons.assignment),
+                label: CakapHelper.tulisan(context)!.o_home_1),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person_pin_circle), label: 'Pesanan'),
+                icon: const Icon(Icons.person_pin_circle),
+                label: CakapHelper.tulisan(context)!.o_home_2),
           ],
         ));
   }

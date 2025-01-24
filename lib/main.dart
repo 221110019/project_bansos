@@ -19,12 +19,6 @@ void main() async {
   MobileAds.instance.initialize();
   await Firebase.initializeApp();
   AwesomeNotifications().initialize('resource://drawable/launch_background', [
-    // .initialize(null, [
-    NotificationChannel(
-        channelKey: 'welcome',
-        channelName: 'Welcome',
-        importance: NotificationImportance.High,
-        channelDescription: 'To welcome new user'),
     NotificationChannel(
         channelKey: 'log_in',
         channelName: 'Log In',
