@@ -24,12 +24,6 @@ class _ProfilState extends State<Profil> {
     return Scaffold(
       appBar: AppBar(
         title: Text(CakapHelper.tulisan(context)!.cust_home),
-        actions: const [
-          Icon(Icons.notifications),
-          SizedBox(
-            width: 20,
-          )
-        ],
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),

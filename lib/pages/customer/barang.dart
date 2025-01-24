@@ -106,10 +106,6 @@ class _BarangState extends State<Barang> {
           ),
           automaticallyImplyLeading: false,
           title: Text(CakapHelper.tulisan(context)!.cust_barang_1),
-          actions: [
-            IconButton(
-                onPressed: widget.searchButton, icon: const Icon(Icons.search))
-          ],
         ),
         body: TabBarView(
             children: [barang('Kue'), barang('Alat'), barang('Acak')]),

@@ -61,8 +61,10 @@ class UpdateStokOwner {
                     style: const TextStyle(
                         fontSize: 24, fontWeight: FontWeight.w900),
                   ),
-                  Text(
-                      '${CakapHelper.tulisan(context)!.o_dash_5} : ${(DateFormat('dd-MM-yyyy').format(barang.kadarluasa!.toDate()))}'),
+                  barang.kadarluasa != null
+                      ? Text(
+                          '${CakapHelper.tulisan(context)!.o_dash_5} : ${(DateFormat('dd-MM-yyyy').format(barang.kadarluasa!.toDate()))}')
+                      : SizedBox(),
                   const Divider(),
                   Text(
                     '${CakapHelper.tulisan(context)!.o_home_1}: ${barang.jumlah}',
